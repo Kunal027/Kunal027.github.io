@@ -1,7 +1,7 @@
 /* CSS Variables - Upgraded for a Premium Look */
 :root {
-    --bg-dark: #070707; /* Deeper, richer black */
-    --bg-sidebar: rgba(10, 10, 10, 0.75); /* Translucent for Glassmorphism */
+    --bg-dark: #070707; 
+    --bg-sidebar: rgba(10, 10, 10, 0.75); 
     --bg-card: #121212;
     --accent-red: #e50914;
     --accent-gradient: linear-gradient(135deg, #e50914 0%, #ff4b2b 100%);
@@ -32,7 +32,6 @@ body {
     color: var(--text-main);
     line-height: 1.6;
     overflow-x: hidden; 
-    /* Subtle radial gradient background for depth */
     background-image: radial-gradient(circle at 15% 50%, rgba(229, 9, 20, 0.03), transparent 25%),
                       radial-gradient(circle at 85% 30%, rgba(255, 75, 43, 0.03), transparent 25%);
 }
@@ -51,7 +50,7 @@ a { text-decoration: none; color: var(--text-main); }
     transition: all cubic-bezier(0.4, 0, 0.2, 1) 0.5s;
     z-index: 9997;
     background: var(--bg-sidebar);
-    backdrop-filter: blur(15px); /* The "Glass" effect */
+    backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border-right: 1px solid rgba(255, 255, 255, 0.05);
     padding: 20px 15px;
@@ -225,7 +224,7 @@ section {
     color: var(--text-muted);
     margin-bottom: 30px;
     font-weight: 300;
-    min-height: 90px; /* Reserves space for 2 lines on desktop */
+    min-height: 90px;
 }
 
 .typing-text {
@@ -249,7 +248,7 @@ section {
     background: var(--accent-gradient);
     color: #fff;
     padding: 14px 32px;
-    border-radius: 30px; /* Pill shape for a modern look */
+    border-radius: 30px; 
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1.5px;
@@ -322,7 +321,7 @@ section {
 .timeline-item h5 { font-size: 1rem; color: var(--accent-red); margin-bottom: 15px; font-weight: 600; letter-spacing: 1px;}
 .timeline-item p { color: var(--text-muted); font-size: 1.05rem; }
 
-/* Grid Layouts for Hobbies & Certs (Fascinating Cards) */
+/* Grid Layouts for Hobbies & Certs */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -434,14 +433,14 @@ section {
     border: 1px solid rgba(255, 255, 255, 0.05);
     transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     cursor: pointer;
-    filter: grayscale(20%); /* Slight cinematic desaturation */
+    filter: grayscale(20%); 
 }
 
 .gallery-img:hover {
     border-color: var(--accent-red);
     transform: scale(1.04) translateY(-8px);
     box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(229, 9, 20, 0.2);
-    filter: grayscale(0%); /* Full color on hover */
+    filter: grayscale(0%); 
     z-index: 2;
     position: relative;
 }
@@ -479,21 +478,36 @@ section {
     box-shadow: 0 4px 15px var(--accent-glow);
 }
 
+/* =========================================
+   MOBILE DEVICES (The Bulletproof Fix)
+   ========================================= */
 @media (max-width: 992px) {
     #header { left: -300px; }
     #main { margin-left: 0; }
     .mobile-nav-toggle { display: flex; }
     .mobile-nav-active #header { left: 0; }
+    
     section { 
         padding: 80px 25px; 
         min-height: auto; 
     }
+    
+    /* Locks the entire Hero section from resizing */
+    #hero {
+        min-height: 90vh !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
     #hero h1 { font-size: 3.2rem; }
+    
+    /* The rigid box fix to prevent the button from bouncing */
     #hero p { 
-        font-size: 1.25rem; 
-        min-height: 90px;  /* Locks enough space for 3 lines on mobile */
-        margin-bottom: 20px;
-        display: block;
+        font-size: 1.4rem !important; 
+        height: 90px !important; 
+        margin-bottom: 30px !important;
+        display: block !important;
     }
     
     .cert-grid {
