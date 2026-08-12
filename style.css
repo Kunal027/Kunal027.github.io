@@ -343,18 +343,18 @@ section {
     box-shadow: 0 15px 30px rgba(0,0,0,0.8);
 }
 
-/* Responsive Gallery Grid for Multiple Photos */
+/* Responsive Gallery Grid */
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     width: 100%;
 }
 
 .gallery-img {
     width: 100%;
-    height: 260px;
-    object-fit: cover;
+    height: 250px; /* Controlled height so they don't stretch fullscreen */
+    object-fit: cover; /* Keeps aspect ratio clean without distortion */
     border-radius: 10px;
     border: 2px solid #222;
     transition: all 0.4s ease;
@@ -403,6 +403,13 @@ section {
     #main { margin-left: 0; }
     .mobile-nav-toggle { display: flex; }
     .mobile-nav-active #header { left: 0; }
-    section { padding: 60px 20px; }
+    section { 
+        padding: 60px 20px; 
+        min-height: auto; /* Fixes sections stretching too long on mobile screens */
+    }
     #hero h1 { font-size: 3rem; }
+    
+    .gallery-img {
+        height: 220px; /* Compact height optimized specifically for smaller phone screens */
+    }
 }
