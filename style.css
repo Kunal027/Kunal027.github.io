@@ -225,6 +225,7 @@ section {
     color: var(--text-muted);
     margin-bottom: 30px;
     font-weight: 300;
+    min-height: 90px; /* Reserves space for 2 lines on desktop */
 }
 
 .typing-text {
@@ -488,7 +489,12 @@ section {
         min-height: auto; 
     }
     #hero h1 { font-size: 3.2rem; }
-    #hero p { font-size: 1.4rem; }
+    #hero p { 
+        font-size: 1.25rem; 
+        min-height: 90px;  /* Locks enough space for 3 lines on mobile */
+        margin-bottom: 20px;
+        display: block;
+    }
     
     .cert-grid {
         grid-template-columns: 1fr; 
