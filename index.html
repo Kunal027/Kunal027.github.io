@@ -50,10 +50,10 @@
 
         <!-- Hero Section -->
         <section id="hero">
-            <div class="hidden">
-                <h1>Hi, I'm <span>Kunal</span></h1>
+            <div class="hidden hero-container">
+                <h1>Hi, I'm <span class="gradient-text">Kunal</span></h1>
                 <p>I'm a <span class="typing-text" id="typed-text"></span></p>
-                <div style="margin-top: 20px;">
+                <div style="margin-top: 30px;">
                     <a href="#about" class="btn"><i class="fa-solid fa-compass"></i> Explore My Work</a>
                 </div>
             </div>
@@ -232,7 +232,7 @@
                     <i class="fa-brands fa-youtube icon-main" style="color: #ff0000;"></i>
                     <h3 style="color: var(--text-main);">Hindi Indie Pop playlist:1</h3>
                     <p style="color: var(--text-muted); margin-bottom: 20px;">Click here to listen to my favorite independent Hindi tracks.</p>
-                    <span class="btn" style="width: fit-content; font-size: 0.9rem; padding: 8px 18px;">Listen on YouTube</span>
+                    <span class="btn playlist-btn">Listen on YouTube</span>
                 </a>
 
                 <!-- Playlist 2: Energetic English -->
@@ -240,7 +240,7 @@
                     <i class="fa-brands fa-youtube icon-main" style="color: #ff0000;"></i>
                     <h3 style="color: var(--text-main);">Hindi Indie Pop playlist:2</h3>
                     <p style="color: var(--text-muted); margin-bottom: 20px;">Click here to groove to my high-energy English tracks.</p>
-                    <span class="btn" style="width: fit-content; font-size: 0.9rem; padding: 8px 18px;">Listen on YouTube</span>
+                    <span class="btn playlist-btn">Listen on YouTube</span>
                 </a>
 
                 <!-- Playlist 3: Urban Hip Hop -->
@@ -248,7 +248,7 @@
                     <i class="fa-brands fa-youtube icon-main" style="color: #ff0000;"></i>
                     <h3 style="color: var(--text-main);">Urban Hip Hop</h3>
                     <p style="color: var(--text-muted); margin-bottom: 20px;">Click here to vibe with my urban and hip hop music selections.</p>
-                    <span class="btn" style="width: fit-content; font-size: 0.9rem; padding: 8px 18px;">Listen on YouTube</span>
+                    <span class="btn playlist-btn">Listen on YouTube</span>
                 </a>
 
                 <!-- Playlist 4: International -->
@@ -256,7 +256,7 @@
                     <i class="fa-brands fa-youtube icon-main" style="color: #ff0000;"></i>
                     <h3 style="color: var(--text-main);">International</h3>
                     <p style="color: var(--text-muted); margin-bottom: 20px;">Click here to explore global sounds and international hits.</p>
-                    <span class="btn" style="width: fit-content; font-size: 0.9rem; padding: 8px 18px;">Listen on YouTube</span>
+                    <span class="btn playlist-btn">Listen on YouTube</span>
                 </a>
             </div>
         </section>
@@ -287,108 +287,15 @@
 
                 <h3 style="margin-bottom: 15px;">Let's Link Up</h3>
                 <div style="display: flex; gap: 15px;">
-                    <a href="https://www.linkedin.com/in/kunal-panigrahi-7b3340152/" target="_blank" class="btn" style="background: transparent; border: 2px solid #333;"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
-                    <a href="https://github.com/kunal027" target="_blank" class="btn" style="background: transparent; border: 2px solid #333;"><i class="fa-brands fa-github"></i> GitHub</a>
+                    <a href="https://www.linkedin.com/in/kunal-panigrahi-7b3340152/" target="_blank" class="btn ghost-btn"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+                    <a href="https://github.com/kunal027" target="_blank" class="btn ghost-btn"><i class="fa-brands fa-github"></i> GitHub</a>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Scripts for Interactivity -->
-    <script>
-        // 1. Mobile Navigation Toggle
-        const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-        mobileNavToggle.addEventListener('click', function() {
-            document.body.classList.toggle('mobile-nav-active');
-            this.querySelector('i').classList.toggle('fa-bars');
-            this.querySelector('i').classList.toggle('fa-xmark');
-        });
-
-        // 2. Active link switching on scroll
-        const sections = document.querySelectorAll('section');
-        const navLinks = document.querySelectorAll('.nav-menu a');
-
-        window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (scrollY >= sectionTop - 150) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').includes(current)) {
-                    link.classList.add('active');
-                }
-            });
-        });
-
-        // 3. Scroll Animations (Intersection Observer)
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15 });
-
-        document.querySelectorAll('.hidden').forEach((el) => {
-            observer.observe(el);
-        });
-
-        // 4. Creative Typing Effect for Hero Section
-        const words = [
-            "Identity & Access Professional",
-            "Solo Dancer",
-            "Singer",
-            "Automotive Enthusiast",
-            "Photographer",
-            "3D Artist",
-            "Game Developer & Gamer"
-        ];
-        
-        let i = 0;
-        let timer;
-
-        function typingEffect() {
-            let word = words[i].split("");
-            let loopTyping = function() {
-                if (word.length > 0) {
-                    document.getElementById('typed-text').innerHTML += word.shift();
-                } else {
-                    setTimeout(deletingEffect, 2000); 
-                    return false;
-                }
-                timer = setTimeout(loopTyping, 100);
-            };
-            loopTyping();
-        }
-
-        function deletingEffect() {
-            let word = words[i].split("");
-            let loopDeleting = function() {
-                if (word.length > 0) {
-                    word.pop();
-                    document.getElementById('typed-text').innerHTML = word.join("");
-                } else {
-                    if (words.length > (i + 1)) { 
-                        i++; 
-                    } else { 
-                        i = 0; 
-                    }
-                    typingEffect();
-                    return false;
-                }
-                timer = setTimeout(loopDeleting, 50); 
-            };
-            loopDeleting();
-        }
-
-        typingEffect();
-    </script>
+    <!-- Link to your external JS file -->
+    <script src="script.js"></script>
 </body>
 </html>
