@@ -3,48 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Portfolio</title>
-    
+    <title>Kunal Panigrahi — IAM Professional & Creative</title>
+
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Link to your external CSS file -->
+
+    <!-- Fonts + Styles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- Access / Boot Sequence -->
+    <div id="boot" aria-hidden="true">
+        <div class="boot-inner">
+            <div class="boot-badge">
+                <div class="ring-spin boot-ring"></div>
+                <div class="boot-scan"></div>
+                <i class="fa-solid fa-fingerprint"></i>
+            </div>
+            <div class="boot-lines">
+                <p class="boot-line" style="--d:0s">Initializing secure session</p>
+                <p class="boot-line" style="--d:.9s">Verifying credentials</p>
+                <p class="boot-line boot-grant" style="--d:1.8s">Access granted — welcome</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll progress -->
+    <div id="progress"></div>
+
     <!-- Mobile Nav Button -->
-    <button class="mobile-nav-toggle"><i class="fa-solid fa-bars"></i></button>
+    <button class="mobile-nav-toggle" aria-label="Toggle navigation"><i class="fa-solid fa-bars"></i></button>
 
     <!-- Sidebar Navigation -->
     <header id="header">
         <div class="profile">
-            <!-- Profile picture pointing to source folder -->
-            <img src="source/pro.png" alt="Profile Picture">
+            <div class="status-pill"><span class="dot"></span> Status: Available</div>
+
+            <div class="badge-frame">
+                <div class="ring-spin"></div>
+                <img src="source/pro.png" alt="Profile Picture">
+            </div>
+
             <h1><a href="index.html">Kunal Panigrahi</a></h1>
-            
-            <!-- Sidebar Social Links -->
+            <span class="role-tag">IAM Security Analyst</span>
+
             <div class="social-links">
-                <a href="https://www.linkedin.com/in/kunal-panigrahi-7b3340152/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
-                <a href="https://github.com/kunal027" target="_blank"><i class="fa-brands fa-github"></i></a>
-                <a href="https://www.instagram.com/kunal_panigrahi/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://www.facebook.com/kunal.panigrahi1" target="_blank"><i class="fa-brands fa-facebook"></i></a>
-                <a href="https://www.reddit.com/user/Kunal0027/" target="_blank"><i class="fa-brands fa-reddit"></i></a>
+                <a href="https://www.linkedin.com/in/kunal-panigrahi-7b3340152/" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://github.com/kunal027" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.instagram.com/kunal_panigrahi/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
             </div>
         </div>
 
         <nav id="navbar" class="nav-menu">
             <ul>
-                <li><a href="#hero" class="nav-link active"><i class="fa-solid fa-house"></i> <span>Home</span></a></li>
-                <li><a href="#about" class="nav-link"><i class="fa-solid fa-user"></i> <span>About</span></a></li>
-                <li><a href="#experience" class="nav-link"><i class="fa-solid fa-briefcase"></i> <span>Experience</span></a></li>
-                <li><a href="#certifications" class="nav-link"><i class="fa-solid fa-certificate"></i> <span>Certifications</span></a></li>
-                <li><a href="#hobbies" class="nav-link"><i class="fa-solid fa-gamepad"></i> <span>Hobbies</span></a></li>
-                <li><a href="#soundtrack" class="nav-link"><i class="fa-solid fa-music"></i> <span>Playlists</span></a></li>
-                <li><a href="#gallery" class="nav-link"><i class="fa-solid fa-camera-retro"></i> <span>Gallery</span></a></li>
-                <li><a href="#resume" class="nav-link"><i class="fa-solid fa-file-arrow-down"></i> <span>Resume & Connect</span></a></li>
+                <li><a href="#hero" class="nav-link active" data-index="00"><i class="fa-solid fa-house"></i> <span>Home</span></a></li>
+                <li><a href="#about" class="nav-link" data-index="01"><i class="fa-solid fa-user"></i> <span>About</span></a></li>
+                <li><a href="#experience" class="nav-link" data-index="02"><i class="fa-solid fa-briefcase"></i> <span>Experience</span></a></li>
+                <li><a href="#certifications" class="nav-link" data-index="03"><i class="fa-solid fa-certificate"></i> <span>Certifications</span></a></li>
+                <li><a href="#hobbies" class="nav-link" data-index="04"><i class="fa-solid fa-gamepad"></i> <span>Hobbies</span></a></li>
+                <li><a href="#soundtrack" class="nav-link" data-index="05"><i class="fa-solid fa-music"></i> <span>Playlists</span></a></li>
+                <li><a href="#gallery" class="nav-link" data-index="06"><i class="fa-solid fa-camera-retro"></i> <span>Gallery</span></a></li>
+                <li><a href="#resume" class="nav-link" data-index="07"><i class="fa-solid fa-file-arrow-down"></i> <span>Resume & Connect</span></a></li>
             </ul>
         </nav>
+
+        <div class="sidebar-footer">
+            <span id="local-clock">LOCAL --:--:--</span>
+            <span>© 2026 KUNAL.SYS</span>
+        </div>
     </header>
 
     <!-- Main Content Area -->
@@ -52,10 +80,11 @@
 
         <!-- Hero Section -->
         <section id="hero">
-            <div class="hidden hero-container">
+            <div class="hidden">
+                <p class="hero-eyebrow"><span class="dot"></span> Identity verified — session active</p>
                 <h1>Hi, I'm <span class="gradient-text">Kunal</span></h1>
                 <p>I'm a <span class="typing-text" id="typed-text"></span></p>
-                <div style="margin-top: 30px;">
+                <div style="margin-top: 20px;">
                     <a href="#about" class="btn"><i class="fa-solid fa-compass"></i> Explore My Work</a>
                 </div>
             </div>
@@ -63,15 +92,18 @@
 
         <!-- About Section -->
         <section id="about">
-            <h2 class="section-title hidden">About Me</h2>
+            <div class="title-wrap hidden">
+                <span class="eyebrow">01 — About</span>
+                <h2 class="section-title">About Me</h2>
+            </div>
             <div class="hidden">
-                <p style="font-size: 1.1rem; max-width: 900px; margin-bottom: 20px;">
+                <p>
                     My tech journey has been diverse and highly driven by hands-on creation. I started my path by diving into hardware, learning IoT, coordinating interactive workshops, and personally training hundreds of students in the fundamentals of connected technologies.
                 </p>
-                <p style="font-size: 1.1rem; max-width: 900px; margin-bottom: 20px;">
+                <p>
                     My fascination with interactive experiences eventually led me into game development and 3D modeling using Unity, Blender, and Maya. After graduation, I put these skills to work through freelancing and internships, developing several immersive AR/VR applications—including a specialized educational app mapping human organ anatomy. During this period of growth, I also expanded my expertise into the realms of cybersecurity and cloud architecture, studying Oracle Cloud and Azure.
                 </p>
-                <p style="font-size: 1.1rem; max-width: 900px;">
+                <p>
                     This broad technical foundation ultimately led me to <strong>LTIMindtree</strong>, where I found my true niche as a focused and enthusiastic Identity and Access Management (IAM) Professional. Today, I specialize in navigating complex security landscapes, working extensively with SailPoint IdentityIQ, Windows Server, Active Directory, LDAP, Unix access protocols, and ServiceNow testing to build robust, secure access solutions for critical enterprise assets.
                 </p>
             </div>
@@ -79,18 +111,21 @@
 
         <!-- Experience Timeline -->
         <section id="experience">
-            <h2 class="section-title hidden">Professional Experience</h2>
-            <div class="timeline hidden">
-                
-                <div class="timeline-item">
+            <div class="title-wrap hidden">
+                <span class="eyebrow">02 — Experience</span>
+                <h2 class="section-title">Professional Experience</h2>
+            </div>
+            <div class="timeline">
+
+                <div class="timeline-item hidden">
                     <h4>IAM Engineer / Specialist</h4>
-                    <h5>LTIMindtree | MAY 22 - </h5>
+                    <h5>LTIMindtree | MAY 22 - NOV 25</h5>
                     <p>
                         Explored and implemented enterprise-level Identity and Access Management (IAM) solutions. Specialized in role configuration and access provisioning using SailPoint IdentityIQ (IIQ). Extensively managed and tested environments involving Windows Server, Active Directory, LDAP, and Unix access, alongside utilizing ServiceNow for service testing and workflow management.
                     </p>
                 </div>
 
-                <div class="timeline-item">
+                <div class="timeline-item hidden">
                     <h4>AR/VR Developer</h4>
                     <h5>Freelance & Internships | AUG 21 - JAN 22</h5>
                     <p>
@@ -98,7 +133,7 @@
                     </p>
                 </div>
 
-                <div class="timeline-item">
+                <div class="timeline-item hidden">
                     <h4>IoT Coordinator & Technical Educator</h4>
                     <h5>Centurion University Of Technology and Management</h5>
                     <p>
@@ -111,63 +146,80 @@
 
         <!-- Certifications Section -->
         <section id="certifications">
-            <h2 class="section-title hidden">Licenses & Certifications</h2>
-            <div class="cert-grid hidden">
-                
-                <a href="https://www.credly.com/badges/f3ee4151-6fa6-41d2-b9a9-50acbe435246/linked_in_profile" target="_blank" class="cert-card">
+            <div class="title-wrap hidden">
+                <span class="eyebrow">03 — Credentials</span>
+                <h2 class="section-title">Licenses & Certifications</h2>
+            </div>
+            <div class="cert-grid stagger">
+
+                <a href="https://www.credly.com/badges/f3ee4151-6fa6-41d2-b9a9-50acbe435246/linked_in_profile" target="_blank" class="cert-card hidden">
                     <i class="fa-solid fa-shield-halved"></i>
-                    <div>
+                    <div class="cert-body">
+                        <span class="cert-id">CRED · 01</span>
                         <h4>Identity Security Leader Credential</h4>
                         <p>SailPoint</p>
                     </div>
+                    <span class="verified-tag"><i class="fa-solid fa-check"></i></span>
                 </a>
 
-                <a href="https://www.credly.com/badges/3117c3ba-08a1-4d8a-8085-3a3234da7b7c/linked_in_profile" target="_blank" class="cert-card">
+                <a href="https://www.credly.com/badges/3117c3ba-08a1-4d8a-8085-3a3234da7b7c/linked_in_profile" target="_blank" class="cert-card hidden">
                     <i class="fa-brands fa-microsoft"></i>
-                    <div>
+                    <div class="cert-body">
+                        <span class="cert-id">CRED · 02</span>
                         <h4>Azure Fundamentals</h4>
                         <p>Microsoft</p>
                     </div>
+                    <span class="verified-tag"><i class="fa-solid fa-check"></i></span>
                 </a>
 
-                <a href="https://www.credly.com/badges/626ab0ca-0c82-42e4-9c1c-257626057659/linked_in_profile" target="_blank" class="cert-card">
+                <a href="https://www.credly.com/badges/626ab0ca-0c82-42e4-9c1c-257626057659/linked_in_profile" target="_blank" class="cert-card hidden">
                     <i class="fa-solid fa-server"></i>
-                    <div>
+                    <div class="cert-body">
+                        <span class="cert-id">CRED · 03</span>
                         <h4>Autonomous Database Cloud 2019 Certified Specialist</h4>
                         <p>Oracle</p>
                     </div>
+                    <span class="verified-tag"><i class="fa-solid fa-check"></i></span>
                 </a>
 
-                <a href="https://www.credly.com/badges/a0765286-45b7-4913-950a-b5d40ee6c5d1/linked_in_profile" target="_blank" class="cert-card">
+                <a href="https://www.credly.com/badges/a0765286-45b7-4913-950a-b5d40ee6c5d1/linked_in_profile" target="_blank" class="cert-card hidden">
                     <i class="fa-solid fa-cloud"></i>
-                    <div>
+                    <div class="cert-body">
+                        <span class="cert-id">CRED · 04</span>
                         <h4>Cloud Infrastructure Foundations 2020 Certified Associate</h4>
                         <p>Oracle</p>
                     </div>
+                    <span class="verified-tag"><i class="fa-solid fa-check"></i></span>
                 </a>
 
-                <a href="https://www.credly.com/badges/f16f53e1-6afc-4a6b-b1bf-ed6ca4a76c3c/linked_in_profile" target="_blank" class="cert-card">
+                <a href="https://www.credly.com/badges/f16f53e1-6afc-4a6b-b1bf-ed6ca4a76c3c/linked_in_profile" target="_blank" class="cert-card hidden">
                     <i class="fa-solid fa-network-wired"></i>
-                    <div>
+                    <div class="cert-body">
+                        <span class="cert-id">CRED · 05</span>
                         <h4>Cybersecurity IT Fundamentals Specialization</h4>
                         <p>IBM</p>
                     </div>
+                    <span class="verified-tag"><i class="fa-solid fa-check"></i></span>
                 </a>
 
-                <a href="https://www.linkedin.com/learning/certificates/d3baed6658a9d443ca829204335a458ebd3f768c67c0a6bc76fed39f6fa39136" target="_blank" class="cert-card">
+                <a href="https://www.linkedin.com/learning/certificates/d3baed6658a9d443ca829204335a458ebd3f768c67c0a6bc76fed39f6fa39136" target="_blank" class="cert-card hidden">
                     <i class="fa-brands fa-linkedin"></i>
-                    <div>
+                    <div class="cert-body">
+                        <span class="cert-id">CRED · 06</span>
                         <h4>IT Security Specialist</h4>
                         <p>LinkedIn</p>
                     </div>
+                    <span class="verified-tag"><i class="fa-solid fa-check"></i></span>
                 </a>
 
-                <a href="https://www.linkedin.com/learning/certificates/4651fcf1441ed0e324f9cf33fb8c4024b58d727bf0753eb7ad5c2c2b47f114c9" target="_blank" class="cert-card">
+                <a href="https://www.linkedin.com/learning/certificates/4651fcf1441ed0e324f9cf33fb8c4024b58d727bf0753eb7ad5c2c2b47f114c9" target="_blank" class="cert-card hidden">
                     <i class="fa-brands fa-unity"></i>
-                    <div>
+                    <div class="cert-body">
+                        <span class="cert-id">CRED · 07</span>
                         <h4>Unity 3D Essential Training</h4>
                         <p>LinkedIn</p>
                     </div>
+                    <span class="verified-tag"><i class="fa-solid fa-check"></i></span>
                 </a>
 
             </div>
@@ -175,129 +227,162 @@
 
         <!-- Hobbies Section -->
         <section id="hobbies">
-            <h2 class="section-title hidden">Interests & Hobbies</h2>
-            <p class="hidden" style="margin-bottom: 30px;">Beyond the screen, here is what keeps my creativity and energy flowing.</p>
-            
-            <div class="grid">
-                <!-- Dance Card -->
+            <div class="title-wrap hidden">
+                <span class="eyebrow">04 — Beyond Work</span>
+                <h2 class="section-title">Interests & Hobbies</h2>
+            </div>
+            <p class="hidden" style="margin-bottom: 30px; color: var(--text-dim);">Beyond the screen, here is what keeps my creativity and energy flowing.</p>
+
+            <div class="grid stagger">
                 <div class="card hidden">
                     <i class="fa-solid fa-shoe-prints icon-main"></i>
                     <h3>Dancer</h3>
                     <p>I am a solo dancer specializing in locking and popping styles, continually practicing to blend precision technique with rhythmic flow.</p>
                 </div>
 
-                <!-- Singer Card -->
                 <div class="card hidden">
                     <i class="fa-solid fa-microphone-lines icon-main"></i>
                     <h3>Singer</h3>
                     <p>I love testing my vocal range, exploring different melodies, and channeling my creativity through singing and vocal performance.</p>
                 </div>
 
-                <!-- Automotive Card -->
                 <div class="card hidden">
                     <i class="fa-solid fa-car-side icon-main"></i>
                     <h3>Cars & Motorcycles</h3>
                     <p>I love driving cars and motorcycles, going on road trips, exploring new places, and taking on off-road adventures.</p>
                 </div>
 
-                <!-- Photography Card -->
                 <div class="card hidden">
                     <i class="fa-solid fa-camera-retro icon-main"></i>
                     <h3>Photographer</h3>
                     <p>I enjoy capturing the world around me, framing interesting perspectives, and taking sharp photos primarily on my Phone and sometime on DSLRs .</p>
                 </div>
 
-                <!-- 3D Artist Card -->
                 <div class="card hidden">
                     <i class="fa-solid fa-cube icon-main"></i>
                     <h3>3D Artist</h3>
                     <p>I create 1/7 scale commercial character figure designs, bringing intricate concepts and artistic visions to life using detailed ZBrush workflows.</p>
                 </div>
-                
-                <!-- Game Dev & Gaming Card -->
+
                 <div class="card hidden">
                     <i class="fa-solid fa-gamepad icon-main"></i>
                     <h3>Gaming & Game Dev</h3>
-                    <p>An avid gamer and former game developer, I love analyzing game mechanics, exploring immersive worlds, and building my own interactive experiences.</p>
+                    <p>An avid gamer and aspiring game developer, I love analyzing game mechanics, exploring immersive worlds, and building my own interactive experiences.</p>
                 </div>
             </div>
         </section>
 
         <!-- Soundtrack Section -->
         <section id="soundtrack">
-            <h2 class="section-title hidden">My Soundtrack</h2>
-            <p class="hidden" style="margin-bottom: 30px;">A collection of my favorite tracks across various genres—Hindi, English, Hip Hop, and International vibes.</p>
-            
-            <div class="grid">
-                <!-- Playlist 1: Hindi Indie Pop -->
-                <a href="https://youtube.com/playlist?list=PLDloIYIVpbkTyPCcHIZa1emzDVHE6R6Xb" target="_blank" class="card hidden" style="text-decoration: none; border-left: 4px solid var(--accent-red);">
+            <div class="title-wrap hidden">
+                <span class="eyebrow">05 — Playlists</span>
+                <h2 class="section-title">My Soundtrack</h2>
+            </div>
+            <p class="hidden" style="margin-bottom: 30px; color: var(--text-dim);">A collection of my favorite tracks across various genres—Hindi, English, Hip Hop, and International vibes.</p>
+
+            <div class="grid stagger">
+                <a href="https://youtube.com/playlist?list=PLDloIYIVpbkTyPCcHIZa1emzDVHE6R6Xb" target="_blank" class="card hidden" style="text-decoration: none;">
                     <i class="fa-brands fa-youtube icon-main" style="color: #ff0000;"></i>
-                    <h3 style="color: var(--text-main);">Hindi Indie Pop playlist:1</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 20px;">Click here to listen to my favorite independent Hindi tracks.</p>
-                    <span class="btn playlist-btn">Listen on YouTube</span>
+                    <h3 style="color: var(--text);">Hindi Indie Pop playlist:1</h3>
+                    <p style="margin-bottom: 20px;">Click here to listen to my favorite independent Hindi tracks.</p>
+                    <span class="btn btn-small">Listen on YouTube</span>
                 </a>
 
-                <!-- Playlist 2: Energetic English -->
-                <a href="https://youtube.com/playlist?list=PLDloIYIVpbkSuYf8VJFHE99LyYcWFfY99" target="_blank" class="card hidden" style="text-decoration: none; border-left: 4px solid var(--accent-red);">
+                <a href="https://youtube.com/playlist?list=PLDloIYIVpbkSuYf8VJFHE99LyYcWFfY99" target="_blank" class="card hidden" style="text-decoration: none;">
                     <i class="fa-brands fa-youtube icon-main" style="color: #ff0000;"></i>
-                    <h3 style="color: var(--text-main);">Hindi Indie Pop playlist:2</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 20px;">Click here to listen to my favorite independent Hindi tracks.</p>
-                    <span class="btn playlist-btn">Listen on YouTube</span>
+                    <h3 style="color: var(--text);">Hindi Indie Pop playlist:2</h3>
+                    <p style="margin-bottom: 20px;">Click here to groove to my high-energy English tracks.</p>
+                    <span class="btn btn-small">Listen on YouTube</span>
                 </a>
 
-                <!-- Playlist 3: Urban Hip Hop -->
-                <a href="https://youtube.com/playlist?list=PLDloIYIVpbkR16jbQtSHqiB3J1BxpXMvS" target="_blank" class="card hidden" style="text-decoration: none; border-left: 4px solid var(--accent-red);">
+                <a href="https://youtube.com/playlist?list=PLDloIYIVpbkR16jbQtSHqiB3J1BxpXMvS" target="_blank" class="card hidden" style="text-decoration: none;">
                     <i class="fa-brands fa-youtube icon-main" style="color: #ff0000;"></i>
-                    <h3 style="color: var(--text-main);">Urban Hip Hop</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 20px;">Click here to vibe with my urban and hip hop music selections.</p>
-                    <span class="btn playlist-btn">Listen on YouTube</span>
+                    <h3 style="color: var(--text);">Urban Hip Hop</h3>
+                    <p style="margin-bottom: 20px;">Click here to vibe with my urban and hip hop music selections.</p>
+                    <span class="btn btn-small">Listen on YouTube</span>
                 </a>
 
-                <!-- Playlist 4: International -->
-                <a href="https://youtube.com/playlist?list=PLDloIYIVpbkQA6WgIzoub0-EaYqbDInnb" target="_blank" class="card hidden" style="text-decoration: none; border-left: 4px solid var(--accent-red);">
+                <a href="https://youtube.com/playlist?list=PLDloIYIVpbkQA6WgIzoub0-EaYqbDInnb" target="_blank" class="card hidden" style="text-decoration: none;">
                     <i class="fa-brands fa-youtube icon-main" style="color: #ff0000;"></i>
-                    <h3 style="color: var(--text-main);">International</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 20px;">Click here to explore global sounds and international hits.</p>
-                    <span class="btn playlist-btn">Listen on YouTube</span>
+                    <h3 style="color: var(--text);">International</h3>
+                    <p style="margin-bottom: 20px;">Click here to explore global sounds and international hits.</p>
+                    <span class="btn btn-small">Listen on YouTube</span>
                 </a>
             </div>
         </section>
 
-        <!-- Photo Gallery Section (5 Responsive Photos) -->
+        <!-- Photo Gallery Section -->
         <section id="gallery">
-            <h2 class="section-title hidden">My Captures & Moments</h2>
-            <p class="hidden" style="margin-bottom: 30px;">A few of my favorite snapshots.</p>
-            
-            <div class="gallery-grid hidden">
-                <img src="source/photo1.jpg" alt="Gallery Photo 1" class="gallery-img">
-                <img src="source/photo2.jpg" alt="Gallery Photo 2" class="gallery-img">
-                <img src="source/photo3.jpg" alt="Gallery Photo 3" class="gallery-img">
-                <img src="source/photo4.jpg" alt="Gallery Photo 4" class="gallery-img">
-                <img src="source/photo5.jpg" alt="Gallery Photo 5" class="gallery-img">
+            <div class="title-wrap hidden">
+                <span class="eyebrow">06 — Gallery</span>
+                <h2 class="section-title">My Captures & Moments</h2>
+            </div>
+            <p class="hidden" style="margin-bottom: 30px; color: var(--text-dim);">A few of my favorite snapshots. Click any photo to view it full-size.</p>
+
+            <div class="gallery-grid stagger">
+                <div class="gallery-item hidden">
+                    <div class="frame">
+                        <img src="source/photo1.jpg" alt="Gallery Photo 1" class="gallery-img">
+                        <div class="cap">IMG_01</div>
+                    </div>
+                </div>
+                <div class="gallery-item hidden">
+                    <div class="frame">
+                        <img src="source/photo2.jpg" alt="Gallery Photo 2" class="gallery-img">
+                        <div class="cap">IMG_02</div>
+                    </div>
+                </div>
+                <div class="gallery-item hidden">
+                    <div class="frame">
+                        <img src="source/photo3.jpg" alt="Gallery Photo 3" class="gallery-img">
+                        <div class="cap">IMG_03</div>
+                    </div>
+                </div>
+                <div class="gallery-item hidden">
+                    <div class="frame">
+                        <img src="source/photo4.jpg" alt="Gallery Photo 4" class="gallery-img">
+                        <div class="cap">IMG_04</div>
+                    </div>
+                </div>
+                <div class="gallery-item hidden">
+                    <div class="frame">
+                        <img src="source/photo5.jpg" alt="Gallery Photo 5" class="gallery-img">
+                        <div class="cap">IMG_05</div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Resume & Connect -->
         <section id="resume">
-            <h2 class="section-title hidden">Resume & Connect</h2>
+            <div class="title-wrap hidden">
+                <span class="eyebrow">07 — Connect</span>
+                <h2 class="section-title">Resume & Connect</h2>
+            </div>
             <div class="hidden" style="max-width: 600px;">
-                <p>Feel free to download my full professional resume to see a detailed breakdown of my skills, tools, and technical projects.</p>
-                
+                <p class="lead">Feel free to download my full professional resume to see a detailed breakdown of my skills, tools, and technical projects.</p>
+
                 <a href="source/resume.pdf" target="_blank" class="btn" style="margin-bottom: 40px;">
                     <i class="fa-solid fa-file-arrow-down"></i> Download Resume
                 </a>
 
-                <h3 style="margin-bottom: 15px;">Let's Link Up</h3>
-                <div style="display: flex; gap: 15px;">
-                    <a href="https://www.linkedin.com/in/kunal-panigrahi-7b3340152/" target="_blank" class="btn ghost-btn"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
-                    <a href="https://github.com/kunal027" target="_blank" class="btn ghost-btn"><i class="fa-brands fa-github"></i> GitHub</a>
+                <h3>Let's Link Up</h3>
+                <div class="btn-row">
+                    <a href="https://www.linkedin.com/in/kunal-panigrahi-7b3340152/" target="_blank" class="btn btn-ghost"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+                    <a href="https://github.com/kunal027" target="_blank" class="btn btn-ghost"><i class="fa-brands fa-github"></i> GitHub</a>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Link to your external JS file -->
+    <!-- Lightbox -->
+    <div id="lightbox">
+        <button class="lb-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        <img src="" alt="">
+    </div>
+
+    <!-- Scripts -->
     <script src="script.js"></script>
 </body>
 </html>
