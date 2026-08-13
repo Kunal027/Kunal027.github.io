@@ -23,28 +23,44 @@ if (prefersReduced) {
     document.body.classList.remove('booting');
     startTypingEffect();
 } else {
-    setTimeout(finishBoot, 2500);
+    // Shorter, snappier intro on small screens
+    const isSmallScreen = window.matchMedia('(max-width: 600px)').matches;
+    if (isSmallScreen && boot) {
+        const delays = [0, 0.45, 0.9];
+        boot.querySelectorAll('.boot-line').forEach((line, idx) => {
+            line.style.animationDelay = delays[idx] + 's';
+        });
+    }
+    setTimeout(finishBoot, isSmallScreen ? 1500 : 2500);
     // allow skipping the intro with a click/tap
     if (boot) boot.addEventListener('click', finishBoot);
 }
 
 /* ---------- 2. Mobile nav toggle ---------- */
 const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+const navOverlay = document.querySelector('.nav-overlay');
+
+function closeMobileNav() {
+    document.body.classList.remove('mobile-nav-active');
+    if (navOverlay) navOverlay.classList.remove('active');
+    if (mobileNavToggle) {
+        const icon = mobileNavToggle.querySelector('i');
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-bars');
+    }
+}
+
 if (mobileNavToggle) {
     mobileNavToggle.addEventListener('click', function () {
-        document.body.classList.toggle('mobile-nav-active');
+        const isOpen = document.body.classList.toggle('mobile-nav-active');
+        if (navOverlay) navOverlay.classList.toggle('active', isOpen);
         this.querySelector('i').classList.toggle('fa-bars');
         this.querySelector('i').classList.toggle('fa-xmark');
     });
     document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            document.body.classList.remove('mobile-nav-active');
-            if (mobileNavToggle.querySelector('i').classList.contains('fa-xmark')) {
-                mobileNavToggle.querySelector('i').classList.remove('fa-xmark');
-                mobileNavToggle.querySelector('i').classList.add('fa-bars');
-            }
-        });
+        link.addEventListener('click', closeMobileNav);
     });
+    if (navOverlay) navOverlay.addEventListener('click', closeMobileNav);
 }
 
 /* ---------- 3. Active link switching on scroll + progress bar ---------- */

@@ -931,7 +931,6 @@ section {
     #main { margin-left: 0; }
     .mobile-nav-toggle { display: flex; }
     body.mobile-nav-active #header { left: 0; }
-    body.mobile-nav-active::after { content:''; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9996; }
 
     section { padding: 90px 26px; min-height: auto; }
     #hero { padding-top: 70px; }
@@ -944,14 +943,47 @@ section {
     .gallery-img { height: 220px; }
 
     .cursor-dot, .cursor-ring { display: none; }
+
+    /* Calmer, cheaper ambient background — the fixed animated glow
+       reads as jank rather than atmosphere on phone GPUs */
+    body::after { animation: none; opacity: 0.6; }
+    body::before { background-size: 36px 36px; opacity: 0.7; }
+
+    /* Snappier, lighter reveal motion for touch scrolling */
+    .hidden { transform: translateY(16px); transition: opacity 0.5s var(--ease-soft), transform 0.5s var(--ease-soft); }
+    .stagger > *:nth-child(1) { transition-delay: .02s; }
+    .stagger > *:nth-child(2) { transition-delay: .06s; }
+    .stagger > *:nth-child(3) { transition-delay: .10s; }
+    .stagger > *:nth-child(4) { transition-delay: .14s; }
+    .stagger > *:nth-child(5) { transition-delay: .18s; }
+    .stagger > *:nth-child(6) { transition-delay: .22s; }
+    .stagger > *:nth-child(7) { transition-delay: .26s; }
+    .stagger > *:nth-child(8) { transition-delay: .30s; }
+    .timeline::before { transition: transform 0.9s var(--ease-soft); }
+    .card:hover { transform: none; } /* hover states don't apply on touch anyway */
 }
+
+.nav-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9996;
+    background: rgba(4, 5, 6, 0.6);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+}
+
+.nav-overlay.active { opacity: 1; pointer-events: auto; }
 
 @media (max-width: 480px) {
     section { padding: 76px 18px; }
+    .boot-badge { width: 64px; height: 64px; }
+    .boot-badge i { font-size: 22px; }
     .boot-lines { padding: 0 20px; }
     .boot-line { font-size: 0.72rem; }
     .btn-row { flex-direction: column; align-items: stretch; }
     .btn-row .btn { justify-content: center; }
+    #lightbox { backdrop-filter: none; background: rgba(4, 5, 6, 0.96); padding: 24px; }
 }
 
 /* Respect touch devices: never rely on hover for critical info */
