@@ -140,9 +140,15 @@ function startTypingEffect() {
     typingEffect();
 }
 
+function getArticle(word) {
+    return /^[aeiou]/i.test(word) ? 'an' : 'a';
+}
+
 function typingEffect() {
     const typedTextEl = document.getElementById('typed-text');
+    const articleEl = document.getElementById('typed-article');
     if (!typedTextEl) return;
+    if (articleEl) articleEl.textContent = getArticle(words[wordIndex]);
     let word = words[wordIndex].split('');
 
     function loopTyping() {
