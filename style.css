@@ -362,11 +362,11 @@ button { font-family: inherit; }
     .hud-corner#hud-actions { gap: 8px; }
     .cert-grid, .gallery-grid { max-height: 44vh; }
     .gallery-img { height: 130px; }
-    #scroll-track { height: 1600vh; } /* more scroll room = gentler camera speed on touch */
+    #scroll-track { height: 1600vh; } 
 }
 
 @media (max-width: 480px) {
-    #hud-name span.name-text { display: none; }
+    #hud-name span.name-text { display: none; } 
     .boot-lines { padding: 0 20px; }
     .boot-line { font-size: 0.7rem; }
     .btn-row { flex-direction: column; align-items: stretch; }
