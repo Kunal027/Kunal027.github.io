@@ -4,19 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kunal Panigrahi — IAM Professional & Creative</title>
-
+    
+    <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    
+    <!-- Link to your external CSS file -->
     <link rel="stylesheet" href="style.css">
-
-    <!-- Three.js via import map — loaded by the browser, not bundled -->
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
-        }
-    }
-    </script>
 </head>
 <body>
 
@@ -35,57 +28,63 @@
         </div>
     </div>
 
-    <!-- WebGL scene -->
-    <div id="canvas-container" aria-hidden="true"></div>
+    <!-- Mobile Nav Button -->
+    <button class="mobile-nav-toggle"><i class="fa-solid fa-bars"></i></button>
 
-    <!-- Persistent HUD -->
-    <div class="hud-corner" id="hud-name">
-        <span class="dot"></span>
-        <span class="name-text">Kunal Panigrahi</span>
-    </div>
+    <!-- Sidebar Navigation -->
+    <header id="header">
+        <div class="profile">
+            <!-- Profile picture pointing to source folder -->
+            <img src="source/pro.png" alt="Profile Picture">
+            <h1><a href="index.html">Kunal Panigrahi</a></h1>
+            
+            <!-- Sidebar Social Links -->
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/kunal-panigrahi-7b3340152/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://github.com/kunal027" target="_blank"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.instagram.com/kunal_panigrahi/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.facebook.com/kunal.panigrahi1" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://www.reddit.com/user/Kunal0027/" target="_blank"><i class="fa-brands fa-reddit"></i></a>
+                <a href="source/resume.pdf" target="_blank"><i class="fa-solid fa-file-arrow-down"></i></a>
+            </div>
+        </div>
 
-    <div class="hud-corner" id="hud-actions">
-        <a href="https://www.linkedin.com/in/kunal-panigrahi-7b3340152/" target="_blank" class="hud-btn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-        <a href="https://github.com/kunal027" target="_blank" class="hud-btn" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-        <a href="https://www.instagram.com/kunal_panigrahi/" target="_blank" class="hud-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://www.facebook.com/kunal.panigrahi1" target="_blank" class="hud-btn" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
-        <a href="https://www.reddit.com/user/Kunal0027/" target="_blank" class="hud-btn" aria-label="Reddit"><i class="fa-brands fa-reddit"></i></a>
-        <a href="source/resume.pdf" target="_blank" class="hud-btn" aria-label="Download Resume"><i class="fa-solid fa-file-arrow-down"></i></a>
-    </div>
+        <nav id="navbar" class="nav-menu">
+            <ul>
+                <li><a href="#chapter-hero" class="nav-link active"><i class="fa-solid fa-house"></i> <span>Home</span></a></li>
+                <li><a href="#chapter-about" class="nav-link"><i class="fa-solid fa-user"></i> <span>About</span></a></li>
+                <li><a href="#chapter-experience" class="nav-link"><i class="fa-solid fa-briefcase"></i> <span>Experience</span></a></li>
+                <li><a href="#chapter-certifications" class="nav-link"><i class="fa-solid fa-certificate"></i> <span>Certifications</span></a></li>
+                <li><a href="#chapter-dance" class="nav-link"><i class="fa-solid fa-gamepad"></i> <span>Hobbies</span></a></li>
+                <li><a href="#chapter-soundtrack" class="nav-link"><i class="fa-solid fa-music"></i> <span>Playlists</span></a></li>
+                <li><a href="#chapter-gallery" class="nav-link"><i class="fa-solid fa-camera-retro"></i> <span>Gallery</span></a></li>
+                <li><a href="#chapter-resume" class="nav-link"><i class="fa-solid fa-file-arrow-down"></i> <span>Connect</span></a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <!-- Chapter dot-nav -->
-    <nav id="dot-nav" aria-label="Chapters">
-        <div class="dot-item active" data-target="hero"><span class="dot-label">Home</span><span class="dot-mark"></span></div>
-        <div class="dot-item" data-target="about"><span class="dot-label">About</span><span class="dot-mark"></span></div>
-        <div class="dot-item" data-target="experience"><span class="dot-label">Experience</span><span class="dot-mark"></span></div>
-        <div class="dot-item" data-target="certifications"><span class="dot-label">Certifications</span><span class="dot-mark"></span></div>
-        <div class="dot-item" data-target="dance"><span class="dot-label">Hobbies</span><span class="dot-mark"></span></div>
-        <div class="dot-item" data-target="soundtrack"><span class="dot-label">Playlists</span><span class="dot-mark"></span></div>
-        <div class="dot-item" data-target="gallery"><span class="dot-label">Gallery</span><span class="dot-mark"></span></div>
-        <div class="dot-item" data-target="resume"><span class="dot-label">Connect</span><span class="dot-mark"></span></div>
-    </nav>
-
-    <!-- Scroll track — its height drives the camera's journey through the 3D world -->
-    <div id="scroll-track">
+    <!-- Main Content Area -->
+    <main id="main">
 
         <!-- 00 · HERO -->
         <section class="chapter" id="chapter-hero">
-            <div class="chapter-inner">
+            <div class="chapter-inner show">
                 <p class="hero-eyebrow reveal"><span class="dot"></span> Identity verified — session active</p>
                 <h1 class="reveal">Hi, I'm <span class="gradient-text">Kunal</span></h1>
-                <p class="role-line reveal">I'm <span class="typing-text"><span id="typed-article"></span> <span id="typed-text"></span></span></p>
-                <div class="scroll-cue reveal"><span>Scroll to begin</span><i class="fa-solid fa-chevron-down"></i></div>
+                <p class="role-line reveal">I'm a <span class="typing-text" id="typed-text"></span></p>
+                <div style="margin-top: 30px;">
+                    <a href="#chapter-about" class="btn reveal"><i class="fa-solid fa-compass"></i> Explore My Work</a>
+                </div>
             </div>
         </section>
 
         <!-- 01 · ABOUT -->
         <section class="chapter" id="chapter-about">
             <div class="chapter-inner">
-                <span class="eyebrow reveal">01 — About</span>
                 <h2 class="reveal">About Me</h2>
-                <div class="about-text reveal">
-                    <p>My tech journey has been diverse and highly driven by hands-on creation. I started my path by diving into hardware, learning IoT, coordinating interactive workshops, and personally training hundreds of students in the fundamentals of connected technologies.</p>
-                    <p>My fascination with interactive experiences eventually led me into game development and 3D modeling using Unity, Blender, and Maya. After graduation, I put these skills to work through freelancing and internships, developing several immersive AR/VR applications—including a specialized educational app mapping human organ anatomy. During this period of growth, I also expanded my expertise into the realms of cybersecurity and cloud architecture, studying Oracle Cloud and Azure.</p>
+                <div class="reveal" style="font-size: 1.1rem; color: #a3a3a3;">
+                    <p style="margin-bottom: 20px;">My tech journey has been diverse and highly driven by hands-on creation. I started my path by diving into hardware, learning IoT, coordinating interactive workshops, and personally training hundreds of students in the fundamentals of connected technologies.</p>
+                    <p style="margin-bottom: 20px;">My fascination with interactive experiences eventually led me into game development and 3D modeling using Unity, Blender, and Maya. After graduation, I put these skills to work through freelancing and internships, developing several immersive AR/VR applications—including a specialized educational app mapping human organ anatomy. During this period of growth, I also expanded my expertise into the realms of cybersecurity and cloud architecture, studying Oracle Cloud and Azure.</p>
                     <p>This broad technical foundation ultimately led me to <strong>LTIMindtree</strong>, where I found my true niche as a focused and enthusiastic Identity and Access Management (IAM) Professional. Today, I specialize in navigating complex security landscapes, working extensively with SailPoint IdentityIQ, Windows Server, Active Directory, LDAP, Unix access protocols, and ServiceNow testing to build robust, secure access solutions for critical enterprise assets.</p>
                 </div>
             </div>
@@ -94,9 +93,8 @@
         <!-- 02 · EXPERIENCE -->
         <section class="chapter" id="chapter-experience">
             <div class="chapter-inner">
-                <span class="eyebrow reveal">02 — Experience</span>
                 <h2 class="reveal">Professional Experience</h2>
-                <div class="mini-timeline reveal">
+                <div class="mini-timeline reveal stagger">
                     <div class="mini-timeline-item">
                         <h4>IAM Engineer / Specialist</h4>
                         <h5>LTIMindtree | MAY 22 - NOV 25</h5>
@@ -119,7 +117,6 @@
         <!-- 03 · CERTIFICATIONS -->
         <section class="chapter wide" id="chapter-certifications">
             <div class="chapter-inner">
-                <span class="eyebrow reveal">03 — Credentials</span>
                 <h2 class="reveal">Licenses & Certifications</h2>
                 <div class="cert-grid stagger reveal">
                     <a href="https://www.credly.com/badges/f3ee4151-6fa6-41d2-b9a9-50acbe435246/linked_in_profile" target="_blank" class="cert-card">
@@ -161,90 +158,73 @@
             </div>
         </section>
 
-        <!-- 04a · DANCE -->
-        <section class="chapter hobby-chapter" id="chapter-dance">
+        <!-- 04 · HOBBIES (Dynamic Flow) -->
+        <section class="chapter" id="chapter-dance">
             <div class="chapter-inner">
-                <span class="eyebrow reveal">04 — Beyond Work</span>
-                <div class="hobby-icon reveal"><i class="fa-solid fa-shoe-prints"></i></div>
-                <h2 class="reveal">Dancer</h2>
-                <p class="reveal">I am a solo dancer specializing in locking and popping styles, continually practicing to blend precision technique with rhythmic flow.</p>
-            </div>
-        </section>
-
-        <!-- 04b · SINGER -->
-        <section class="chapter hobby-chapter" id="chapter-singer">
-            <div class="chapter-inner">
-                <div class="hobby-icon reveal"><i class="fa-solid fa-microphone-lines"></i></div>
-                <h2 class="reveal">Singer</h2>
-                <p class="reveal">I love testing my vocal range, exploring different melodies, and channeling my creativity through singing and vocal performance.</p>
-            </div>
-        </section>
-
-        <!-- 04c · CARS -->
-        <section class="chapter hobby-chapter" id="chapter-cars">
-            <div class="chapter-inner">
-                <div class="hobby-icon reveal"><i class="fa-solid fa-car-side"></i></div>
-                <h2 class="reveal">Cars & Motorcycles</h2>
-                <p class="reveal">I love driving cars and motorcycles, going on road trips, exploring new places, and taking on off-road adventures.</p>
-            </div>
-        </section>
-
-        <!-- 04d · PHOTOGRAPHY -->
-        <section class="chapter hobby-chapter" id="chapter-photo">
-            <div class="chapter-inner">
-                <div class="hobby-icon reveal"><i class="fa-solid fa-camera-retro"></i></div>
-                <h2 class="reveal">Photographer</h2>
-                <p class="reveal">I enjoy capturing the world around me, framing interesting perspectives, and taking sharp photos primarily on my Phone and sometime on DSLRs.</p>
-            </div>
-        </section>
-
-        <!-- 04e · 3D ART -->
-        <section class="chapter hobby-chapter" id="chapter-art3d">
-            <div class="chapter-inner">
-                <div class="hobby-icon reveal"><i class="fa-solid fa-cube"></i></div>
-                <h2 class="reveal">3D Artist</h2>
-                <p class="reveal">I create 1/7 scale commercial character figure designs, bringing intricate concepts and artistic visions to life using detailed ZBrush workflows.</p>
-            </div>
-        </section>
-
-        <!-- 04f · GAMING -->
-        <section class="chapter hobby-chapter" id="chapter-gaming">
-            <div class="chapter-inner">
-                <div class="hobby-icon reveal"><i class="fa-solid fa-gamepad"></i></div>
-                <h2 class="reveal">Gaming & Game Dev</h2>
-                <p class="reveal">An avid gamer and aspiring game developer, I love analyzing game mechanics, exploring immersive worlds, and building my own interactive experiences.</p>
+                <h2 class="reveal">Interests & Hobbies</h2>
+                <div class="grid stagger reveal">
+                    <div class="card">
+                        <i class="fa-solid fa-shoe-prints icon-main"></i>
+                        <h3>Dancer</h3>
+                        <p>I am a solo dancer specializing in locking and popping styles, continually practicing to blend precision technique with rhythmic flow.</p>
+                    </div>
+                    <div class="card">
+                        <i class="fa-solid fa-microphone-lines icon-main"></i>
+                        <h3>Singer</h3>
+                        <p>I love testing my vocal range, exploring different melodies, and channeling my creativity through singing and vocal performance.</p>
+                    </div>
+                    <div class="card">
+                        <i class="fa-solid fa-car-side icon-main"></i>
+                        <h3>Cars & Motorcycles</h3>
+                        <p>I love driving cars and motorcycles, going on road trips, exploring new places, and taking on off-road adventures.</p>
+                    </div>
+                    <div class="card">
+                        <i class="fa-solid fa-camera-retro icon-main"></i>
+                        <h3>Photographer</h3>
+                        <p>I enjoy capturing the world around me, framing interesting perspectives, and taking sharp photos primarily on my Phone and sometime on DSLRs.</p>
+                    </div>
+                    <div class="card">
+                        <i class="fa-solid fa-cube icon-main"></i>
+                        <h3>3D Artist</h3>
+                        <p>I create 1/7 scale commercial character figure designs, bringing intricate concepts and artistic visions to life using detailed ZBrush workflows.</p>
+                    </div>
+                    <div class="card">
+                        <i class="fa-solid fa-gamepad icon-main"></i>
+                        <h3>Gaming & Game Dev</h3>
+                        <p>An avid gamer and aspiring game developer, I love analyzing game mechanics, exploring immersive worlds, and building my own interactive experiences.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- 05 · SOUNDTRACK -->
         <section class="chapter wide" id="chapter-soundtrack">
             <div class="chapter-inner">
-                <span class="eyebrow reveal">05 — Playlists</span>
                 <h2 class="reveal">My Soundtrack</h2>
                 <div class="grid stagger reveal">
-                    <a href="https://youtube.com/playlist?list=PLDloIYIVpbkTyPCcHIZa1emzDVHE6R6Xb" target="_blank" class="card" style="text-decoration: none;">
+                    <a href="https://youtube.com/playlist?list=PLDloIYIVpbkTyPCcHIZa1emzDVHE6R6Xb" target="_blank" class="card" style="text-decoration: none; border-left: 4px solid var(--accent-red);">
                         <i class="fa-brands fa-youtube icon-main" style="color: #ff0000;"></i>
                         <h3>Hindi Indie Pop playlist:1</h3>
-                        <p style="margin-bottom: 14px;">My favorite independent Hindi tracks.</p>
-                        <span class="btn btn-small">Listen on YouTube</span>
+                        <p style="color: var(--text-muted); margin-bottom: 20px;">Click here to listen to my favorite independent Hindi tracks.</p>
+                        <span class="btn playlist-btn btn-small">Listen on YouTube</span>
                     </a>
-                    <a href="https://youtube.com/playlist?list=PLDloIYIVpbkSuYf8VJFHE99LyYcWFfY99" target="_blank" class="card" style="text-decoration: none;">
+                    <a href="https://youtube.com/playlist?list=PLDloIYIVpbkSuYf8VJFHE99LyYcWFfY99" target="_blank" class="card" style="text-decoration: none; border-left: 4px solid var(--accent-red);">
                         <i class="fa-brands fa-youtube icon-main" style="color: #ff0000;"></i>
                         <h3>Hindi Indie Pop playlist:2</h3>
-                        <p style="margin-bottom: 14px;">High-energy English tracks.</p>
-                        <span class="btn btn-small">Listen on YouTube</span>
+                        <p style="color: var(--text-muted); margin-bottom: 20px;">Click here to groove to my high-energy English tracks.</p>
+                        <span class="btn playlist-btn btn-small">Listen on YouTube</span>
                     </a>
-                    <a href="https://youtube.com/playlist?list=PLDloIYIVpbkR16jbQtSHqiB3J1BxpXMvS" target="_blank" class="card" style="text-decoration: none;">
+                    <a href="https://youtube.com/playlist?list=PLDloIYIVpbkR16jbQtSHqiB3J1BxpXMvS" target="_blank" class="card" style="text-decoration: none; border-left: 4px solid var(--accent-red);">
                         <i class="fa-brands fa-youtube icon-main" style="color: #ff0000;"></i>
                         <h3>Urban Hip Hop</h3>
-                        <p style="margin-bottom: 14px;">Urban and hip hop selections.</p>
-                        <span class="btn btn-small">Listen on YouTube</span>
+                        <p style="color: var(--text-muted); margin-bottom: 20px;">Click here to vibe with my urban and hip hop music selections.</p>
+                        <span class="btn playlist-btn btn-small">Listen on YouTube</span>
                     </a>
-                    <a href="https://youtube.com/playlist?list=PLDloIYIVpbkQA6WgIzoub0-EaYqbDInnb" target="_blank" class="card" style="text-decoration: none;">
+                    <a href="https://youtube.com/playlist?list=PLDloIYIVpbkQA6WgIzoub0-EaYqbDInnb" target="_blank" class="card" style="text-decoration: none; border-left: 4px solid var(--accent-red);">
                         <i class="fa-brands fa-youtube icon-main" style="color: #ff0000;"></i>
                         <h3>International</h3>
-                        <p style="margin-bottom: 14px;">Global sounds and international hits.</p>
-                        <span class="btn btn-small">Listen on YouTube</span>
+                        <p style="color: var(--text-muted); margin-bottom: 20px;">Click here to explore global sounds and international hits.</p>
+                        <span class="btn playlist-btn btn-small">Listen on YouTube</span>
                     </a>
                 </div>
             </div>
@@ -253,7 +233,6 @@
         <!-- 06 · GALLERY -->
         <section class="chapter wide" id="chapter-gallery">
             <div class="chapter-inner">
-                <span class="eyebrow reveal">06 — Gallery</span>
                 <h2 class="reveal">My Captures & Moments</h2>
                 <div class="gallery-grid stagger reveal">
                     <div class="gallery-item"><img src="source/photo1.jpg" alt="Gallery Photo 1" class="gallery-img"></div>
@@ -265,25 +244,23 @@
             </div>
         </section>
 
-        <!-- 07 · RESUME / CONNECT -->
+        <!-- 07 · CONNECT -->
         <section class="chapter" id="chapter-resume">
             <div class="chapter-inner">
-                <span class="eyebrow reveal">07 — Connect</span>
                 <h2 class="reveal">Resume & Connect</h2>
-                <p class="lead reveal">Feel free to download my full professional resume to see a detailed breakdown of my skills, tools, and technical projects.</p>
+                <p class="reveal lead" style="max-width: 600px; margin-bottom: 20px;">Feel free to download my full professional resume to see a detailed breakdown of my skills, tools, and technical projects.</p>
                 <div class="reveal">
-                    <a href="source/resume.pdf" target="_blank" class="btn"><i class="fa-solid fa-file-arrow-down"></i> Download Resume</a>
+                    <a href="source/resume.pdf" target="_blank" class="btn" style="margin-bottom: 40px;"><i class="fa-solid fa-file-arrow-down"></i> Download Resume</a>
                 </div>
-                <h3 class="reveal">Let's Link Up</h3>
-                <div class="btn-row reveal">
+                <h3 class="reveal" style="margin-bottom: 15px; font-weight: 600;">Let's Link Up</h3>
+                <div class="reveal btn-row" style="display: flex; gap: 15px;">
                     <a href="https://www.linkedin.com/in/kunal-panigrahi-7b3340152/" target="_blank" class="btn btn-ghost"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
                     <a href="https://github.com/kunal027" target="_blank" class="btn btn-ghost"><i class="fa-brands fa-github"></i> GitHub</a>
                 </div>
-                <p class="outro reveal">Access session complete — thanks for scrolling all the way through.</p>
             </div>
         </section>
 
-    </div>
+    </main>
 
     <!-- Lightbox -->
     <div id="lightbox">
@@ -291,6 +268,7 @@
         <img src="" alt="">
     </div>
 
-    <script type="module" src="script.js"></script>
+    <!-- Link to your external JS file -->
+    <script src="script.js"></script>
 </body>
 </html>
