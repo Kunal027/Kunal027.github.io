@@ -1293,7 +1293,7 @@ section {
 
 .identity-map-visual {
     position:relative;
-    min-height:520px;
+    min-height:660px;
     border:1px solid var(--line);
     border-radius:16px;
     background:
@@ -1314,7 +1314,7 @@ section {
 }
 .map-core {
     position:absolute;
-    left:50%; top:48%;
+    left:50%; top:39%;
     width:190px; height:190px;
     transform:translate(-50%,-50%);
     border:1px solid rgba(63,215,255,.42);
@@ -1427,9 +1427,9 @@ section {
 .map-node small { display:block; color:var(--text-dim); font-size:.74rem; line-height:1.5; margin-top:4px; }
 .node-enter { display:inline-flex; align-items:center; gap:7px; margin-top:14px; color:var(--accent-2); font-family:var(--font-mono); font-size:.61rem; letter-spacing:.08em; }
 .node-enter i { margin:0; font-size:.65rem; color:currentColor; transition:transform .3s ease; }
-.map-node-focus { left:8%; top:14%; }
-.map-node-projects { right:8%; top:14%; }
-.map-node-roadmap { left:50%; bottom:7%; transform:translateX(-50%); }
+.map-node-focus { left:8%; top:12%; }
+.map-node-projects { right:8%; top:12%; }
+.map-node-roadmap { left:50%; bottom:6%; transform:translateX(-50%); }
 .map-node-roadmap:focus-visible { transform:translateX(-50%) translateY(-6px); }
 @media (hover:hover) and (pointer:fine) {
     .map-node-roadmap:hover { transform:translateX(-50%) translateY(-6px); }
@@ -1461,6 +1461,90 @@ section {
 }
 .map-flow-strip span { padding:6px 9px; border:1px solid var(--line); border-radius:5px; background:rgba(255,255,255,.015); }
 .map-flow-strip i { color:var(--accent); font-size:.55rem; }
+
+/* ---- Map entrance choreography: console "boots up" into view ---- */
+.identity-map-visual .map-core,
+.identity-map-visual .map-node { opacity:0; transition:opacity .6s var(--ease); }
+.identity-map-visual.show .map-core { opacity:1; transition-delay:.05s; }
+.identity-map-visual.show .map-node-focus { opacity:1; transition-delay:.24s; }
+.identity-map-visual.show .map-node-projects { opacity:1; transition-delay:.34s; }
+.identity-map-visual.show .map-node-roadmap { opacity:1; transition-delay:.44s; }
+
+@keyframes coreReveal { from { transform:translate(-50%,-50%) scale(.78); } to { transform:translate(-50%,-50%) scale(1); } }
+@keyframes nodeRiseLeft { from { transform:translate(-20px,-24px); } to { transform:translate(0,0); } }
+@keyframes nodeRiseRight { from { transform:translate(20px,-24px); } to { transform:translate(0,0); } }
+@keyframes nodeRiseCenter { from { transform:translateX(-50%) translateY(28px); } to { transform:translateX(-50%) translateY(0); } }
+@keyframes nodeRiseUp { from { transform:translateY(28px); } to { transform:translateY(0); } }
+.identity-map-visual.show .map-core { animation:coreReveal .85s var(--ease) .05s backwards; }
+.identity-map-visual.show .map-node-focus { animation:nodeRiseLeft .8s var(--ease) .24s backwards; }
+.identity-map-visual.show .map-node-projects { animation:nodeRiseRight .8s var(--ease) .34s backwards; }
+@media (min-width:801px) {
+    .identity-map-visual.show .map-node-roadmap { animation:nodeRiseCenter .8s var(--ease) .44s backwards; }
+}
+@media (max-width:800px) {
+    .identity-map-visual.show .map-node-roadmap { animation:nodeRiseUp .8s var(--ease) .44s backwards; }
+}
+
+.identity-map-visual .connection-left,
+.identity-map-visual .connection-right,
+.identity-map-visual .connection-bottom { transition:opacity .35s ease, filter .35s ease, transform .9s var(--ease); }
+.identity-map-visual .connection-left { transform:rotate(-23deg) scaleX(0); }
+.identity-map-visual .connection-right { transform:rotate(23deg) scaleX(0); }
+.identity-map-visual .connection-bottom { transform:scaleY(0); transform-origin:top center; }
+.identity-map-visual.show .connection-left { transform:rotate(-23deg) scaleX(1); transition-delay:.6s; }
+.identity-map-visual.show .connection-right { transform:rotate(23deg) scaleX(1); transition-delay:.6s; }
+.identity-map-visual.show .connection-bottom { transform:scaleY(1); transition-delay:.6s; }
+
+/* ---- Ambient "alive" pulse on the core, paused during interaction ---- */
+@keyframes corePulse {
+    0%, 100% { box-shadow:0 0 42px rgba(63,215,255,.08), inset 0 0 35px rgba(63,215,255,.03); }
+    50% { box-shadow:0 0 60px rgba(63,215,255,.17), inset 0 0 42px rgba(63,215,255,.06); }
+}
+.map-core { animation:corePulse 4.5s ease-in-out infinite; }
+.map-core:hover, .map-core:focus-visible, .map-core.is-active { animation:none; }
+
+/* ---- Node hover polish: sweeping highlight + icon micro-interaction ---- */
+.map-node { overflow:hidden; }
+.map-node::before {
+    content:'';
+    position:absolute;
+    top:0; left:-55%;
+    width:35%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(63,215,255,.14), transparent);
+    transform:skewX(-16deg) translateX(0);
+    transition:transform .75s var(--ease);
+    pointer-events:none;
+}
+@media (hover:hover) and (pointer:fine) {
+    .map-node:hover::before { transform:skewX(-16deg) translateX(320%); }
+}
+.map-node > i { transition:transform .35s var(--ease), color .3s ease; }
+@media (hover:hover) and (pointer:fine) {
+    .map-node:hover > i { transform:scale(1.14) rotate(-4deg); }
+    .map-node:not(.is-active):hover .node-enter i { transform:translateX(3px); }
+}
+.core-icon { transition:transform .35s var(--ease), box-shadow .35s ease, background .3s ease, border-color .3s ease, color .3s ease; }
+@media (hover:hover) and (pointer:fine) {
+    .map-core:hover .core-icon { transform:scale(1.1); box-shadow:0 0 22px rgba(63,215,255,.32); }
+}
+
+/* ---- Traveling pulse along an active connection line ---- */
+@keyframes flowDotX { 0% { left:-3px; opacity:0; } 15% { opacity:1; } 85% { opacity:1; } 100% { left:100%; opacity:0; } }
+@keyframes flowDotY { 0% { top:-3px; opacity:0; } 15% { opacity:1; } 85% { opacity:1; } 100% { top:100%; opacity:0; } }
+.map-connection.is-active::after {
+    content:'';
+    position:absolute;
+    top:50%; margin-top:-3px;
+    width:6px; height:6px;
+    border-radius:50%;
+    background:var(--cyan);
+    box-shadow:0 0 10px var(--cyan), 0 0 4px #fff;
+    animation:flowDotX 1.4s linear infinite;
+}
+.connection-bottom.is-active::after {
+    top:0; margin-top:0; left:50%; margin-left:-3px;
+    animation:flowDotY 1.2s linear infinite;
+}
 
 .identity-detail {
     margin-top:18px;
@@ -1501,7 +1585,7 @@ section {
 .detail-actions .btn-small { cursor:pointer; }
 
 @media (max-width: 1100px) {
-    .identity-map-visual { min-height:610px; }
+    .identity-map-visual { min-height:720px; }
     .map-node { width:210px; }
     .map-node-focus { left:4%; }
     .map-node-projects { right:4%; }
