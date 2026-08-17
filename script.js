@@ -266,3 +266,135 @@ if (lightbox) {
         if (e.key === 'Escape') closeLightbox();
     });
 }
+
+
+/* ---------- 11. Unified Identity Security Map ---------- */
+const identityDetail = document.getElementById('identity-detail');
+const mapNodes = document.querySelectorAll('[data-detail]');
+
+const identityDetails = {
+    core: {
+        kicker: 'IDENTITY SECURITY / OVERVIEW',
+        title: 'Identity Security Map',
+        copy: [
+            'This layer brings IAM focus, hands-on work, and the security learning path into one visual model.',
+            'The map is intentionally progressive: understand identity and access, connect those concepts to environments and workflows, then expand into cloud identity, protocols and architecture.'
+        ],
+        items: [
+            ['Focus', 'What I work with: IdentityIQ, directories, access workflows and security governance.'],
+            ['Projects', 'What I can demonstrate: provisioning, connected directory environments and lifecycle lab direction.'],
+            ['Roadmap', 'Where I am heading: cloud identity, identity protocols and identity security architecture.']
+        ],
+        tags: ['IAM', 'IdentityIQ', 'Governance', 'Cloud Identity', 'Security Architecture']
+    },
+    focus: {
+        kicker: '01 / CURRENT CAPABILITY',
+        title: 'IAM Focus',
+        copy: [
+            'My professional direction is centered on controlling who gets access, why they get it, how that access is governed, and how it can be reviewed or removed securely.',
+            'The current focus combines SailPoint IdentityIQ with directory, workflow and access-management exposure.'
+        ],
+        items: [
+            ['Identity Governance', 'SailPoint IdentityIQ, role configuration and access provisioning.'],
+            ['Directories & Access', 'Windows Server, Active Directory, LDAP and Unix access environments.'],
+            ['Workflow & Testing', 'ServiceNow testing and workflow-oriented support for enterprise access processes.'],
+            ['Security Mindset', 'Building deeper capability in least privilege, governance, access reviews and cloud IAM.']
+        ],
+        tags: ['IdentityIQ', 'Roles', 'Provisioning', 'AD', 'LDAP', 'Unix', 'ServiceNow']
+    },
+    projects: {
+        kicker: '02 / HANDS-ON WORK',
+        title: 'IAM Projects & Lab Direction',
+        copy: [
+            'The project layer turns the capability map into things that can be demonstrated visually and documented as evidence.',
+            'It connects an identity event to governance, directory access and review or revocation.'
+        ],
+        items: [
+            ['IdentityIQ Access Provisioning', 'Role configuration and access provisioning represented as Identity → IIQ → Access.'],
+            ['Directory & Access Environment', 'Windows Server, Active Directory, LDAP and Unix presented as one connected identity environment.'],
+            ['Identity Lifecycle Lab', 'Joiner, mover and leaver scenarios, access changes and controlled deprovisioning.'],
+            ['Hybrid Identity Security', 'A learning direction connecting directory concepts with cloud identity, stronger authentication and least privilege.']
+        ],
+        tags: ['Provisioning', 'JML', 'Automation', 'Governance', 'Entra ID', 'Cloud IAM', 'Zero Trust']
+    },
+    roadmap: {
+        kicker: '03 / GROWTH PATH',
+        title: 'Security Roadmap',
+        copy: [
+            'The long-term direction is to grow from hands-on IAM operations into broader identity security engineering and architecture.',
+            'Each stage builds on the previous layer instead of treating IAM, cloud and security architecture as separate tracks.'
+        ],
+        items: [
+            ['Foundation', 'IAM fundamentals: identity, access, provisioning and directory concepts.'],
+            ['Active', 'SailPoint IdentityIQ as the current professional focus.'],
+            ['Next', 'Cloud identity through Entra ID, modern authentication and cloud access.'],
+            ['Next', 'Identity protocols including SAML, OAuth 2.0, OIDC and SCIM.'],
+            ['Future', 'Identity security architecture: least privilege, Zero Trust, PAM and design patterns.']
+        ],
+        tags: ['IAM', 'IdentityIQ', 'Entra ID', 'SAML', 'OAuth 2.0', 'OIDC', 'SCIM', 'PAM']
+    }
+};
+
+function renderIdentityDetail(key) {
+    const detail = identityDetails[key];
+    if (!detail || !identityDetail) return;
+
+    identityDetail.classList.add('is-open');
+    identityDetail.innerHTML = `
+        <div class="detail-inner">
+            <div class="detail-head">
+                <div>
+                    <span class="detail-kicker">${detail.kicker}</span>
+                    <h3>${detail.title}</h3>
+                </div>
+                <button class="detail-close" type="button" aria-label="Close details"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="detail-grid">
+                <div class="detail-copy">
+                    ${detail.copy.map(text => `<p>${text}</p>`).join('')}
+                    <div class="detail-tags">${detail.tags.map(tag => `<span>${tag}</span>`).join('')}</div>
+                </div>
+                <div class="detail-list">
+                    ${detail.items.map(item => `<div class="detail-list-item"><strong>${item[0]}</strong><span>${item[1]}</span></div>`).join('')}
+                </div>
+            </div>
+            <div class="detail-actions">
+                <button class="btn btn-ghost btn-small detail-jump" type="button"><i class="fa-solid fa-arrow-up"></i> Back to map</button>
+            </div>
+        </div>
+    `;
+
+    const close = identityDetail.querySelector('.detail-close');
+    const jump = identityDetail.querySelector('.detail-jump');
+    close?.addEventListener('click', closeIdentityDetail);
+    jump?.addEventListener('click', () => {
+        document.querySelector('.identity-map-visual')?.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'center' });
+    });
+
+    if (!prefersReduced) {
+        requestAnimationFrame(() => identityDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' }));
+    } else {
+        identityDetail.scrollIntoView({ block: 'nearest' });
+    }
+}
+
+function closeIdentityDetail() {
+    if (!identityDetail) return;
+    identityDetail.classList.remove('is-open');
+    identityDetail.innerHTML = `
+        <div class="detail-placeholder">
+            <i class="fa-solid fa-arrow-pointer"></i>
+            <span>Select a map node to open its deeper layer.</span>
+        </div>
+    `;
+}
+
+mapNodes.forEach(node => {
+    node.addEventListener('click', () => renderIdentityDetail(node.dataset.detail));
+    node.addEventListener('keydown', e => {
+        if ((e.key === 'Enter' || e.key === ' ') && node.matches('div.map-core')) {
+            e.preventDefault();
+            renderIdentityDetail(node.dataset.detail);
+        }
+    });
+});
