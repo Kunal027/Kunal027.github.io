@@ -271,6 +271,17 @@ if (lightbox) {
 /* ---------- 11. Unified Identity Security Map ---------- */
 const identityDetail = document.getElementById('identity-detail');
 const mapNodes = document.querySelectorAll('[data-detail]');
+let activeMapKey = null;
+
+function setActiveMapNode(key) {
+    mapNodes.forEach(node => {
+        node.classList.toggle('is-active', !!key && node.dataset.detail === key);
+    });
+    document.querySelectorAll('.map-connection').forEach(line => line.classList.remove('is-active'));
+    if (key === 'focus') document.querySelector('.connection-left')?.classList.add('is-active');
+    if (key === 'projects') document.querySelector('.connection-right')?.classList.add('is-active');
+    if (key === 'roadmap') document.querySelector('.connection-bottom')?.classList.add('is-active');
+}
 
 const identityDetails = {
     core: {
@@ -339,6 +350,12 @@ function renderIdentityDetail(key) {
     const detail = identityDetails[key];
     if (!detail || !identityDetail) return;
 
+    activeMapKey = key;
+    setActiveMapNode(key);
+
+    // re-trigger the open animation even when switching directly between nodes
+    identityDetail.classList.remove('is-open');
+    void identityDetail.offsetWidth;
     identityDetail.classList.add('is-open');
     identityDetail.innerHTML = `
         <div class="detail-inner">
@@ -380,6 +397,8 @@ function renderIdentityDetail(key) {
 
 function closeIdentityDetail() {
     if (!identityDetail) return;
+    activeMapKey = null;
+    setActiveMapNode(null);
     identityDetail.classList.remove('is-open');
     identityDetail.innerHTML = `
         <div class="detail-placeholder">
@@ -389,12 +408,24 @@ function closeIdentityDetail() {
     `;
 }
 
+function handleMapNodeSelect(node) {
+    const key = node.dataset.detail;
+    // Tapping/clicking the node that's already open closes it (toggle) —
+    // this is what makes the panel "auto-close" on mobile instead of
+    // sitting open forever until the X button is used.
+    if (activeMapKey === key) {
+        closeIdentityDetail();
+    } else {
+        renderIdentityDetail(key);
+    }
+}
+
 mapNodes.forEach(node => {
-    node.addEventListener('click', () => renderIdentityDetail(node.dataset.detail));
+    node.addEventListener('click', () => handleMapNodeSelect(node));
     node.addEventListener('keydown', e => {
         if ((e.key === 'Enter' || e.key === ' ') && node.matches('div.map-core')) {
             e.preventDefault();
-            renderIdentityDetail(node.dataset.detail);
+            handleMapNodeSelect(node);
         }
     });
 });
