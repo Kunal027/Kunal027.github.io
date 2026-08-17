@@ -68,6 +68,7 @@ body::before {
         linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
     background-size: 48px 48px;
     mask-image: radial-gradient(ellipse 80% 60% at 60% 20%, #000 30%, transparent 75%);
+    animation: bgGridDrift 70s linear infinite;
 }
 
 body::after {
@@ -80,6 +81,11 @@ body::after {
         radial-gradient(circle at 82% 12%, rgba(229,52,42,0.10), transparent 32%),
         radial-gradient(circle at 15% 78%, rgba(63,215,255,0.06), transparent 30%);
     animation: driftGlow 22s ease-in-out infinite alternate;
+}
+
+@keyframes bgGridDrift {
+    from { background-position: 0 0, 0 0; }
+    to   { background-position: 48px 48px, 48px 48px; }
 }
 
 @keyframes driftGlow {
@@ -1305,12 +1311,31 @@ section {
     content:'';
     position:absolute;
     inset:0;
+    z-index:0;
     background-image:
         linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
     background-size:36px 36px;
     mask-image:radial-gradient(circle at center, #000, transparent 74%);
     pointer-events:none;
+    animation:gridDrift 32s linear infinite;
+}
+.identity-map-visual::after {
+    content:'';
+    position:absolute;
+    inset:-20%;
+    z-index:0;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 30% 22%, rgba(63,215,255,.06), transparent 30%),
+        radial-gradient(circle at 74% 78%, rgba(229,52,42,.045), transparent 28%);
+    animation:consoleGlowDrift 16s ease-in-out infinite alternate;
+}
+@keyframes gridDrift { from { background-position:0 0; } to { background-position:36px 36px; } }
+@keyframes gridDriftSmall { from { background-position:0 0; } to { background-position:28px 28px; } }
+@keyframes consoleGlowDrift {
+    0%   { transform:translate(0,0) scale(1); }
+    100% { transform:translate(4%,-3%) scale(1.09); }
 }
 .map-core {
     position:absolute;
@@ -1669,6 +1694,11 @@ section {
     .identity-map-visual::before {
         background-size: 28px 28px;
         mask-image: linear-gradient(180deg, #000, transparent 100%);
+        animation-name: gridDriftSmall;
+    }
+
+    .identity-map-visual::after {
+        display: none;
     }
 
     .map-core,
