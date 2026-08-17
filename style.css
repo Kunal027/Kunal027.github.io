@@ -1481,3 +1481,246 @@ section {
     .detail-head { gap:12px; }
     .detail-inner h3 { font-size:1.22rem; }
 }
+
+/* ============================================================
+   MOBILE IDENTITY MAP — LINEAR / TOUCH-FIRST MODE
+   On small screens the spatial desktop map becomes a clear
+   vertical sequence instead of a large branching canvas.
+   ============================================================ */
+@media (max-width: 800px) {
+    .identity-map-intro {
+        margin: -4px 0 18px;
+        gap: 16px;
+    }
+
+    .identity-map-intro .lead {
+        font-size: .94rem;
+        line-height: 1.65;
+    }
+
+    .map-hint {
+        font-size: .6rem;
+        line-height: 1.5;
+    }
+
+    .map-legend {
+        width: 100%;
+        justify-content: flex-start;
+        display: flex;
+        gap: 7px 12px;
+        font-size: .57rem;
+    }
+
+    .identity-map-visual {
+        min-height: 0 !important;
+        height: auto;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow: visible;
+        border-radius: 14px;
+        background:
+            linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.008)),
+            var(--bg-alt);
+    }
+
+    .identity-map-visual::before {
+        background-size: 28px 28px;
+        mask-image: linear-gradient(180deg, #000, transparent 100%);
+    }
+
+    .map-core,
+    .map-node,
+    .map-node-roadmap {
+        position: relative;
+        inset: auto;
+        left: auto;
+        right: auto;
+        top: auto;
+        bottom: auto;
+        transform: none !important;
+        width: 100%;
+        min-height: 0;
+    }
+
+    .map-core {
+        order: 1;
+        width: 100%;
+        height: auto;
+        min-height: 142px;
+        border-radius: 14px;
+        padding: 22px 18px;
+        cursor: pointer;
+    }
+
+    .map-core:hover,
+    .map-core:focus-visible {
+        transform: none !important;
+    }
+
+    .core-orbit { display: none; }
+
+    .core-icon {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 9px;
+    }
+
+    .core-kicker { font-size: .54rem; }
+    .map-core strong { font-size: 1rem; }
+    .map-core small { font-size: .58rem; }
+
+    .map-node {
+        order: 2;
+        min-height: 112px;
+        padding: 17px 17px 15px;
+        border-radius: 11px;
+        display: grid;
+        grid-template-columns: 28px 1fr auto;
+        grid-template-rows: auto auto auto;
+        column-gap: 10px;
+        align-items: center;
+        text-align: left;
+    }
+
+    .map-node-projects { order: 3; }
+    .map-node-roadmap { order: 4; }
+
+    .map-node > i {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        margin: 0;
+        width: 28px;
+        text-align: center;
+        font-size: 18px;
+    }
+
+    .node-index {
+        grid-column: 2;
+        grid-row: 1;
+        align-self: end;
+    }
+
+    .map-node strong {
+        grid-column: 2;
+        grid-row: 2;
+        font-size: 1rem;
+        line-height: 1.25;
+        margin-top: 2px;
+    }
+
+    .map-node small {
+        grid-column: 2;
+        grid-row: 3;
+        margin-top: 2px;
+        font-size: .7rem;
+    }
+
+    .node-enter {
+        grid-column: 3;
+        grid-row: 2;
+        margin: 0;
+        white-space: nowrap;
+        font-size: .56rem;
+    }
+
+    .map-node::after {
+        top: 13px;
+        right: 13px;
+    }
+
+    .map-connection { display: none !important; }
+
+    .map-flow-strip {
+        margin-top: 12px;
+        padding: 9px 0 2px;
+        gap: 7px;
+        border: 0;
+        background: transparent;
+        overflow-x: auto;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .map-flow-strip::-webkit-scrollbar { display: none; }
+
+    .map-flow-strip span {
+        flex: 0 0 auto;
+        padding: 6px 8px;
+        font-size: .56rem;
+    }
+
+    .map-flow-strip i { flex: 0 0 auto; }
+
+    .identity-detail {
+        margin-top: 12px;
+        border-radius: 12px;
+    }
+
+    .detail-inner { padding: 16px; }
+
+    .detail-head {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .detail-inner h3 {
+        font-size: 1.12rem;
+        line-height: 1.2;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .detail-copy p {
+        font-size: .82rem;
+        line-height: 1.65;
+    }
+
+    .detail-list-item {
+        padding: 10px 11px;
+    }
+
+    .detail-actions {
+        justify-content: stretch;
+    }
+
+    .detail-actions .btn-small {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 520px) {
+    .identity-map-visual { padding: 12px; }
+
+    .identity-map-intro .lead { font-size: .88rem; }
+
+    .map-legend {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
+    }
+
+    .map-legend span:last-child { grid-column: 1 / -1; }
+
+    .map-core { min-height: 132px; padding: 18px 14px; }
+
+    .map-node {
+        min-height: 104px;
+        grid-template-columns: 24px 1fr auto;
+        padding: 15px;
+    }
+
+    .map-node > i { width: 24px; font-size: 16px; }
+    .map-node strong { font-size: .94rem; }
+    .map-node small { font-size: .65rem; }
+    .node-enter { font-size: .53rem; }
+
+    .identity-detail { margin-top: 10px; }
+}
