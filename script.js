@@ -337,8 +337,8 @@ const identityDetails = {
         ],
         items: [
             ['Foundation', 'IAM fundamentals: identity, access, provisioning and directory concepts.'],
-            ['Active', 'SailPoint IdentityIQ as the current professional focus.'],
-            ['Next', 'Cloud identity through Entra ID, modern authentication and cloud access.'],
+            ['Active', 'SailPoint IdentityIQ and Cloud identity through Entra ID, as the current professional focus.'],
+            ['Next', 'modern authentication and cloud access.'],
             ['Next', 'Identity protocols including SAML, OAuth 2.0, OIDC and SCIM.'],
             ['Future', 'Identity security architecture: least privilege, Zero Trust, PAM and design patterns.']
         ],
