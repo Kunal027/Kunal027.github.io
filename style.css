@@ -277,10 +277,11 @@ body:not(.cursor-ready) .cursor-ring { display: none; }
     padding: 34px 22px 22px;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
     transition: left 0.5s var(--ease-soft);
 }
 
-.profile { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.profile { display: flex; flex-direction: column; align-items: center; text-align: center; flex-shrink: 0; }
 
 .badge-frame {
     position: relative;
@@ -379,7 +380,23 @@ body:not(.cursor-ready) .cursor-ring { display: none; }
     transform: translateY(-3px);
 }
 
-.nav-menu { margin-top: 34px; width: 100%; flex: 1; }
+.nav-menu {
+    margin-top: 34px;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+    mask-image: linear-gradient(to bottom, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+    padding: 2px 2px 2px 0;
+}
+.nav-menu::-webkit-scrollbar { width: 4px; }
+.nav-menu::-webkit-scrollbar-track { background: transparent; }
+.nav-menu::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
 .nav-menu ul { list-style: none; }
 .nav-menu li { margin-bottom: 4px; }
 
@@ -393,9 +410,11 @@ body:not(.cursor-ready) .cursor-ring { display: none; }
     border-radius: 8px;
     font-size: 0.88rem;
     font-weight: 500;
-    transition: color 0.25s ease, background 0.25s ease, padding-left 0.25s var(--ease);
+    transition: color 0.25s ease, background 0.25s ease, padding-left 0.25s var(--ease), transform 0.15s ease;
     background: transparent;
     overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .nav-menu a::before {
@@ -423,6 +442,15 @@ body:not(.cursor-ready) .cursor-ring { display: none; }
 .nav-menu a:hover { color: var(--text); background: var(--bg-elevated); padding-left: 18px; }
 .nav-menu a:hover::before { color: var(--cyan); }
 
+.nav-menu a:active {
+    background: var(--bg-elevated);
+    color: var(--text);
+    transform: scale(0.97);
+    transition: transform 0.1s ease, background 0.1s ease, color 0.1s ease;
+}
+.nav-menu a:active::before { color: var(--cyan); }
+.nav-menu a:active::after { transform: scaleY(1); transition: transform 0.15s ease; }
+
 .nav-menu .active { color: var(--text); background: var(--bg-elevated); }
 .nav-menu .active::after { transform: scaleY(1); }
 .nav-menu .active i { color: var(--accent); }
@@ -439,6 +467,7 @@ body:not(.cursor-ready) .cursor-ring { display: none; }
     display: flex;
     flex-direction: column;
     gap: 4px;
+    flex-shrink: 0;
 }
 
 .sidebar-footer #local-clock { color: var(--text-dim); }
@@ -1694,7 +1723,17 @@ section {
     .identity-map-visual::before {
         background-size: 28px 28px;
         mask-image: linear-gradient(180deg, #000, transparent 100%);
-        animation-name: gridDriftSmall;
+        animation: none;
+    }
+
+    /* Continuous background-position / box-shadow animations repaint every
+       frame and read as stutter on mid-range mobile GPUs — desktop keeps
+       the full ambient motion, mobile keeps the static glow instead. */
+    .map-core,
+    .map-core:hover,
+    .map-core:focus-visible,
+    .map-core.is-active {
+        animation: none;
     }
 
     .identity-map-visual::after {
