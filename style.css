@@ -1528,15 +1528,16 @@ section {
 @keyframes nodeRiseLeft { from { transform:translate(-20px,-24px); } to { transform:translate(0,0); } }
 @keyframes nodeRiseRight { from { transform:translate(20px,-24px); } to { transform:translate(0,0); } }
 @keyframes nodeRiseCenter { from { transform:translateX(-50%) translateY(28px); } to { transform:translateX(-50%) translateY(0); } }
-@keyframes nodeRiseUp { from { transform:translateY(28px); } to { transform:translateY(0); } }
-.identity-map-visual.show .map-core { animation:coreReveal .85s var(--ease) .05s backwards; }
-.identity-map-visual.show .map-node-focus { animation:nodeRiseLeft .8s var(--ease) .24s backwards; }
-.identity-map-visual.show .map-node-projects { animation:nodeRiseRight .8s var(--ease) .34s backwards; }
+
+/* Transform-based rise-in is desktop-only. The parent block (.identity-map-visual)
+   already fades/slides up as one unit via the sitewide reveal system — stacking a
+   second, per-node transform animation on top of that is what read as bounce/lag
+   on phones. Mobile keeps just the plain opacity stagger above. */
 @media (min-width:801px) {
+    .identity-map-visual.show .map-core { animation:coreReveal .85s var(--ease) .05s backwards; }
+    .identity-map-visual.show .map-node-focus { animation:nodeRiseLeft .8s var(--ease) .24s backwards; }
+    .identity-map-visual.show .map-node-projects { animation:nodeRiseRight .8s var(--ease) .34s backwards; }
     .identity-map-visual.show .map-node-roadmap { animation:nodeRiseCenter .8s var(--ease) .44s backwards; }
-}
-@media (max-width:800px) {
-    .identity-map-visual.show .map-node-roadmap { animation:nodeRiseUp .8s var(--ease) .44s backwards; }
 }
 
 .identity-map-visual .connection-left,
