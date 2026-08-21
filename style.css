@@ -45,6 +45,28 @@ html { scroll-behavior: smooth; }
 
 ::selection { background-color: var(--accent); color: #fff; }
 
+/* Site-wide scrollbar theme — replaces the default light OS scrollbar
+   (with its blocky up/down arrow buttons) with a slim, on-brand one that
+   matches the dark background on any pointer-driven browser: Windows/Mac/
+   Linux desktops, and iPad when a trackpad or mouse is attached. Touch
+   scrolling (phones, and iPad without a pointer) already uses translucent
+   auto-hiding overlay scrollbars, so there's nothing to clash there. */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) var(--bg);
+}
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+    background-color: var(--line-strong);
+    background-clip: padding-box;
+    border: 2px solid var(--bg);
+    border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover { background-color: var(--text-faint); }
+::-webkit-scrollbar-corner { background: var(--bg); }
+::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+
 body {
     background-color: var(--bg);
     color: var(--text);
@@ -55,6 +77,7 @@ body {
 }
 
 body.booting { overflow: hidden; height: 100vh; }
+body.modal-open { overflow: hidden; }
 
 /* Ambient background: faint grid + drifting glow, never distracting */
 body::before {
@@ -1532,8 +1555,12 @@ section {
 /* Transform-based rise-in is desktop-only. The parent block (.identity-map-visual)
    already fades/slides up as one unit via the sitewide reveal system — stacking a
    second, per-node transform animation on top of that is what read as bounce/lag
-   on phones. Mobile keeps just the plain opacity stagger above. */
-@media (min-width:801px) {
+   on phones. Mobile keeps just the plain opacity stagger above.
+   Gated on (hover:hover) and (pointer:fine) too, not just width: touch tablets like
+   iPad land in the 801-1100px "desktop" bucket by screen size but are touch devices
+   like phones, so width alone let the same bounce/lag back in on iPad — it needs the
+   pointer/hover check to actually route to the calmer phone-style treatment below. */
+@media (min-width:801px) and (hover:hover) and (pointer:fine) {
     .identity-map-visual.show .map-core { animation:coreReveal .85s var(--ease) .05s backwards; }
     .identity-map-visual.show .map-node-focus { animation:nodeRiseLeft .8s var(--ease) .24s backwards; }
     .identity-map-visual.show .map-node-projects { animation:nodeRiseRight .8s var(--ease) .34s backwards; }
@@ -1601,23 +1628,83 @@ section {
     animation:flowDotY 1.2s linear infinite;
 }
 
-.identity-detail {
-    margin-top:18px;
-    border:1px solid var(--line-strong);
-    border-radius:14px;
-    background:linear-gradient(180deg, rgba(17,19,24,.98), rgba(12,14,17,.98));
-    overflow:hidden;
+/* ---- Ambient idle pulse — plays as soon as the map reveals, so the
+   connections feel alive before a node is ever picked. Deliberately
+   cheap (flat circle, no box-shadow/blur) so it's safe to leave on for
+   every pointer type; hidden once a node is active in favor of the
+   brighter pulse above. ---- */
+.map-connection::before {
+    content:'';
+    position:absolute;
+    top:50%; margin-top:-2px;
+    width:4px; height:4px;
+    border-radius:50%;
+    background:rgba(63,215,255,.5);
+    opacity:0;
 }
-.detail-placeholder { min-height:145px; display:flex; align-items:center; justify-content:center; gap:10px; color:var(--text-faint); font-family:var(--font-mono); font-size:.72rem; }
-.identity-detail { transition:border-color .35s ease, box-shadow .35s ease; }
-.identity-detail.is-open { border-color:rgba(63,215,255,.22); box-shadow:0 20px 50px rgba(0,0,0,.18); }
-.identity-detail.is-open .detail-inner { animation:detailIn .4s var(--ease); }
-@keyframes detailIn {
-    from { opacity:0; transform:translateY(10px); }
-    to { opacity:1; transform:translateY(0); }
+.identity-map-visual.show .connection-left::before,
+.identity-map-visual.show .connection-right::before {
+    animation:flowDotX 3.4s linear infinite;
+}
+.identity-map-visual.show .connection-bottom::before {
+    top:0; margin-top:0; left:50%; margin-left:-2px;
+    animation:flowDotY 2.8s linear infinite;
+}
+.identity-map-visual.show .connection-right::before { animation-delay:1.1s; }
+.identity-map-visual.show .connection-bottom::before { animation-delay:2.1s; }
+.map-connection.is-active::before { opacity:0 !important; animation:none; }
+
+/* Identity detail — popup / modal mode (mirrors #lightbox's overlay pattern) */
+.identity-detail-overlay {
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:rgba(4,5,6,.82);
+    backdrop-filter:blur(6px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    padding:40px 20px;
+    transition:opacity .3s ease, visibility 0s linear .3s;
+}
+.identity-detail-overlay.is-open {
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transition:opacity .3s ease;
+}
+.identity-detail {
+    width:100%;
+    max-width:760px;
+    max-height:85vh;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+    scrollbar-color:var(--line) transparent;
+    border:1px solid var(--line-strong);
+    border-radius:16px;
+    background:linear-gradient(180deg, rgba(17,19,24,.98), rgba(12,14,17,.98));
+    box-shadow:0 30px 80px rgba(0,0,0,.55);
+    opacity:0;
+    transform:scale(.94) translateY(14px);
+    transition:transform .35s var(--ease), opacity .3s ease, border-color .35s ease;
+}
+.identity-detail::-webkit-scrollbar { width:6px; }
+.identity-detail::-webkit-scrollbar-track { background:transparent; }
+.identity-detail::-webkit-scrollbar-thumb { background:var(--line); border-radius:4px; border:none; }
+.identity-detail-overlay.is-open .identity-detail {
+    opacity:1;
+    transform:scale(1) translateY(0);
+    border-color:rgba(63,215,255,.22);
 }
 @media (prefers-reduced-motion: reduce) {
-    .identity-detail.is-open .detail-inner { animation:none; }
+    .identity-detail-overlay { transition:opacity .15s linear, visibility 0s linear .15s; }
+    .identity-detail-overlay.is-open { transition:opacity .15s linear; }
+    .identity-detail { transition:opacity .15s linear, border-color .15s linear; transform:none; }
+    .identity-detail-overlay.is-open .identity-detail { transform:none; }
 }
 .detail-inner { padding:25px; }
 .detail-head { display:flex; justify-content:space-between; align-items:flex-start; gap:20px; margin-bottom:20px; }
@@ -1866,8 +1953,10 @@ section {
 
     .map-flow-strip i { flex: 0 0 auto; }
 
+    .identity-detail-overlay { padding: 16px; }
+
     .identity-detail {
-        margin-top: 12px;
+        max-height: 90vh;
         border-radius: 12px;
     }
 
@@ -1932,6 +2021,27 @@ section {
     .map-node strong { font-size: .94rem; }
     .map-node small { font-size: .65rem; }
     .node-enter { font-size: .53rem; }
+}
 
-    .identity-detail { margin-top: 10px; }
+/* ============================================================
+   TOUCH-DEVICE AMBIENT MOTION OVERRIDE
+   The width-based mobile block above only catches narrow phones
+   (<=800px). A landscape or larger iPad is wider than that but is
+   still a touch screen without a mouse/trackpad, so it was falling
+   into the "desktop" bucket for both the entrance rise-in animation
+   and the continuous gridDrift / consoleGlowDrift / corePulse motion
+   — stacking all of that at once is what read as odd/janky on iPad.
+   This targets touch capability directly (hover:none OR pointer:coarse)
+   regardless of width, so it also catches iPad without duplicating the
+   whole mobile layout rewrite above.
+   ============================================================ */
+@media (hover: none), (pointer: coarse) {
+    .identity-map-visual::before { animation: none; }
+    .identity-map-visual::after { display: none; }
+    .map-core,
+    .map-core:hover,
+    .map-core:focus-visible,
+    .map-core.is-active {
+        animation: none;
+    }
 }

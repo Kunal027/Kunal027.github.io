@@ -269,6 +269,7 @@ if (lightbox) {
 
 
 /* ---------- 11. Unified Identity Security Map ---------- */
+const identityDetailOverlay = document.getElementById('identity-detail-overlay');
 const identityDetail = document.getElementById('identity-detail');
 const mapNodes = document.querySelectorAll('[data-detail]');
 let activeMapKey = null;
@@ -348,15 +349,17 @@ const identityDetails = {
 
 function renderIdentityDetail(key) {
     const detail = identityDetails[key];
-    if (!detail || !identityDetail) return;
+    if (!detail || !identityDetail || !identityDetailOverlay) return;
 
     activeMapKey = key;
     setActiveMapNode(key);
 
-    // re-trigger the open animation even when switching directly between nodes
-    identityDetail.classList.remove('is-open');
+    // re-trigger the pop-in animation even when switching directly between nodes
+    identityDetailOverlay.classList.remove('is-open');
     void identityDetail.offsetWidth;
-    identityDetail.classList.add('is-open');
+    identityDetailOverlay.classList.add('is-open');
+    document.body.classList.add('modal-open');
+    identityDetail.scrollTop = 0;
     identityDetail.innerHTML = `
         <div class="detail-inner">
             <div class="detail-head">
@@ -385,27 +388,21 @@ function renderIdentityDetail(key) {
     const jump = identityDetail.querySelector('.detail-jump');
     close?.addEventListener('click', closeIdentityDetail);
     jump?.addEventListener('click', () => {
+        closeIdentityDetail();
         document.querySelector('.identity-map-visual')?.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'center' });
     });
-
-    if (!prefersReduced) {
-        requestAnimationFrame(() => identityDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' }));
-    } else {
-        identityDetail.scrollIntoView({ block: 'nearest' });
-    }
 }
 
 function closeIdentityDetail() {
-    if (!identityDetail) return;
+    if (!identityDetail || !identityDetailOverlay) return;
     activeMapKey = null;
     setActiveMapNode(null);
-    identityDetail.classList.remove('is-open');
-    identityDetail.innerHTML = `
-        <div class="detail-placeholder">
-            <i class="fa-solid fa-arrow-pointer"></i>
-            <span>Select a map node to open its deeper layer.</span>
-        </div>
-    `;
+    identityDetailOverlay.classList.remove('is-open');
+    document.body.classList.remove('modal-open');
+    // clear content after the close transition finishes so it isn't visible mid-fade
+    window.setTimeout(() => {
+        if (!identityDetailOverlay.classList.contains('is-open')) identityDetail.innerHTML = '';
+    }, 320);
 }
 
 function handleMapNodeSelect(node) {
@@ -428,4 +425,11 @@ mapNodes.forEach(node => {
             handleMapNodeSelect(node);
         }
     });
+});
+
+identityDetailOverlay?.addEventListener('click', e => {
+    if (e.target === identityDetailOverlay) closeIdentityDetail();
+});
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && activeMapKey) closeIdentityDetail();
 });
