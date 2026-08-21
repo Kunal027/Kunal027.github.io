@@ -1727,12 +1727,6 @@ section {
 .detail-actions .btn-small { cursor:pointer; }
 
 @media (max-width: 1100px) {
-    .identity-map-visual { min-height:720px; }
-    .map-node { width:210px; }
-    .map-node-focus { left:4%; }
-    .map-node-projects { right:4%; }
-}
-@media (max-width: 800px) {
     .identity-map-intro { align-items:flex-start; flex-direction:column; }
     .map-legend { justify-content:flex-start; }
     .identity-map-visual { min-height:780px; background:radial-gradient(circle at 50% 45%, rgba(63,215,255,.07), transparent 28%), linear-gradient(145deg, rgba(255,255,255,.02), rgba(255,255,255,.005)); }
@@ -1745,7 +1739,7 @@ section {
     .map-node-roadmap:active { transform:translateY(-2px) scale(.98); }
     .connection-left,.connection-right,.connection-bottom { display:none; }
 }
-@media (max-width: 800px) and (hover:hover) and (pointer:fine) {
+@media (max-width: 1100px) and (hover:hover) and (pointer:fine) {
     .map-node-roadmap:hover { transform:translateY(-6px); }
     .map-flow-strip { justify-content:flex-start; overflow-x:auto; flex-wrap:nowrap; scrollbar-width:thin; }
     .map-flow-strip span { flex:0 0 auto; }
@@ -1770,7 +1764,7 @@ section {
    On small screens the spatial desktop map becomes a clear
    vertical sequence instead of a large branching canvas.
    ============================================================ */
-@media (max-width: 800px) {
+@media (max-width: 1100px) {
     .identity-map-intro {
         margin: -4px 0 18px;
         gap: 16px;

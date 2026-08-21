@@ -232,10 +232,6 @@
                 <span>Cloud Identity</span><i class="fa-solid fa-chevron-right"></i>
                 <span>Identity Security Architecture</span>
             </div>
-
-            <div class="identity-detail-overlay" id="identity-detail-overlay">
-                <div class="identity-detail" id="identity-detail" role="dialog" aria-modal="true" aria-live="polite"></div>
-            </div>
         </section>
 
         <!-- Certifications Section -->
@@ -485,6 +481,11 @@
     <div id="lightbox">
         <button class="lb-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
         <img src="" alt="">
+    </div>
+
+    <!-- Identity Details Popup (Moved outside main to fix z-index overlay issue) -->
+    <div class="identity-detail-overlay" id="identity-detail-overlay">
+        <div class="identity-detail" id="identity-detail" role="dialog" aria-modal="true" aria-live="polite"></div>
     </div>
 
     <!-- Scripts -->
