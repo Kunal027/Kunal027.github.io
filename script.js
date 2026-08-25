@@ -18,6 +18,24 @@ function finishBoot() {
     startTypingEffect();
 }
 
+// Security Hacker Decryption Effect
+function decryptText(element, text, delay) {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*!<>{}[]';
+    let iterations = 0;
+    
+    setTimeout(() => {
+        const interval = setInterval(() => {
+            element.innerText = text.split('').map((letter, index) => {
+                if (index < iterations) return text[index];
+                return chars[Math.floor(Math.random() * chars.length)];
+            }).join('');
+            
+            if (iterations >= text.length) clearInterval(interval);
+            iterations += 1 / 3; // speed multiplier
+        }, 30);
+    }, delay);
+}
+
 if (prefersReduced) {
     if (boot) boot.style.display = 'none';
     document.body.classList.remove('booting');
@@ -25,14 +43,28 @@ if (prefersReduced) {
 } else {
     // Shorter, snappier intro on small screens
     const isSmallScreen = window.matchMedia('(max-width: 600px)').matches;
-    if (isSmallScreen && boot) {
-        const delays = [0, 0.45, 0.9];
-        boot.querySelectorAll('.boot-line').forEach((line, idx) => {
-            line.style.animationDelay = delays[idx] + 's';
+    const delays = isSmallScreen ? [0, 450, 900] : [0, 900, 1800];
+    
+    if (boot) {
+        const bootLines = boot.querySelectorAll('.boot-line');
+        // Define exact strings so we can scramble and rebuild them
+        const originalTexts = [
+            'Initializing secure session', 
+            'Verifying credentials', 
+            'Access granted — welcome'
+        ];
+        
+        bootLines.forEach((line, idx) => {
+            line.innerText = ''; // Clear HTML text to prevent overlap
+            line.style.animationDelay = (delays[idx] / 1000) + 's';
+            decryptText(line, originalTexts[idx], delays[idx]);
         });
     }
-    setTimeout(finishBoot, isSmallScreen ? 1500 : 2500);
-    // allow skipping the intro with a click/tap
+    
+    // Extended timeout: allows the text to fully decrypt (~2s) and hold for ~2s
+    setTimeout(finishBoot, isSmallScreen ? 3800 : 5800);
+    
+    // allow skipping the intro early with a click/tap
     if (boot) boot.addEventListener('click', finishBoot);
 }
 
@@ -407,9 +439,6 @@ function closeIdentityDetail() {
 
 function handleMapNodeSelect(node) {
     const key = node.dataset.detail;
-    // Tapping/clicking the node that's already open closes it (toggle) —
-    // this is what makes the panel "auto-close" on mobile instead of
-    // sitting open forever until the X button is used.
     if (activeMapKey === key) {
         closeIdentityDetail();
     } else {
