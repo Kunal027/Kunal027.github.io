@@ -2265,31 +2265,16 @@ section {
     .hero-visual { order: -1; min-height: clamp(250px, 42vw, 360px); }
 }
 @media (max-width: 640px) {
-    .hero-visual { min-height: 240px; margin: 8px 0 0; }
-    .hero-stage { width: min(100%, 330px); }
-    .hero-stage-label { gap: 6px; padding: 7px 8px; font-size: 7px; }
-    .hero-stage-label-top { right: 0; }
-    .hero-stage-label-top b { font-size: 6px; }
-    .hero-stage-coordinate { font-size: 7px; }
+    /* Hide the complete 3D hero illustration on phones. */
+    .hero-visual { display: none !important; }
 }
 @media (hover: none), (pointer: coarse) {
     .hero-orbit-a, .hero-orbit-b, .hero-stage-label-top, .hero-stage-label-bottom { animation: none; }
     .hero-orbit-system { transition: none; }
     .hero-stage-label { backdrop-filter: none; }
 }
-@media (max-width: 640px) {
-    /* Keep the hero orb as a still 3D illustration on phones. */
-    .hero-orbit-a,
-    .hero-orbit-b,
-    .hero-orbit-c,
-    .hero-stage-label-top,
-    .hero-stage-label-bottom { animation: none !important; }
-    .hero-orbit-system {
-        transform: rotateX(-12deg) rotateY(-22deg);
-        transition: none;
-    }
-    .hero-stage-label { translate: none; }
-}
+
+
 
 /* ============================================================
    STORY REVEALS, MULTI-DIRECTION CARDS, AND RECENTS-STYLE GALLERY
