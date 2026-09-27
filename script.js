@@ -137,6 +137,18 @@ const revealObserver = new IntersectionObserver((entries, obs) => {
 
 document.querySelectorAll('.hidden').forEach(el => revealObserver.observe(el));
 
+/* Observe the unclipped About container; child lines animate after it enters view. */
+const aboutCopy = document.querySelector('.about-copy');
+if (aboutCopy && !prefersReduced) {
+    aboutCopy.classList.add('reveal-ready');
+    const aboutCopyObserver = new IntersectionObserver((entries, observer) => {
+        if (entries.some(entry => entry.isIntersecting)) {
+            aboutCopy.classList.add('is-visible');
+            observer.disconnect();
+        }
+    }, { threshold: 0, rootMargin: '0px 0px -28px 0px' });
+    aboutCopyObserver.observe(aboutCopy);
+}
 /* ---------- 5. Timeline "draw" line ---------- */
 const timeline = document.querySelector('.timeline');
 if (timeline) {
@@ -274,31 +286,74 @@ if (isFinePointer && !prefersReduced) {
     });
 }
 
-/* ---------- 10. Gallery lightbox ---------- */
+/* ---------- 10. Photo tiles and accessible gallery viewer ---------- */
 const lightbox = document.getElementById('lightbox');
 if (lightbox) {
-    const lbImg = lightbox.querySelector('img');
+    const galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
+    const lbImg = lightbox.querySelector('.lb-figure img');
+    const lbCaption = lightbox.querySelector('.lb-caption');
     const lbClose = lightbox.querySelector('.lb-close');
+    const lbPrev = lightbox.querySelector('.lb-prev');
+    const lbNext = lightbox.querySelector('.lb-next');
+    let activePhotoIndex = 0;
+    let lastGalleryTrigger = null;
 
-    document.querySelectorAll('.gallery-item img').forEach(img => {
-        img.addEventListener('click', () => {
-            lbImg.src = img.src;
-            lbImg.alt = img.alt;
-            lightbox.classList.add('open');
-        });
+    function showGalleryPhoto(index) {
+        if (!galleryItems.length || !lbImg || !lbCaption) return;
+        activePhotoIndex = (index + galleryItems.length) % galleryItems.length;
+        const tile = galleryItems[activePhotoIndex];
+        const photo = tile.querySelector('img');
+        lbImg.src = photo.src;
+        lbImg.alt = photo.alt;
+        lbCaption.textContent = tile.dataset.caption || photo.alt;
+        if (lbPrev) lbPrev.hidden = galleryItems.length < 2;
+        if (lbNext) lbNext.hidden = galleryItems.length < 2;
+    }
+
+    function openGalleryPhoto(index) {
+        lastGalleryTrigger = galleryItems[index];
+        showGalleryPhoto(index);
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        lightbox.inert = false;
+        document.body.classList.add('modal-open');
+        lbClose?.focus({ preventScroll: true });
+    }
+
+    function closeGallery() {
+        lightbox.classList.remove('open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightbox.inert = true;
+        document.body.classList.remove('modal-open');
+        lastGalleryTrigger?.focus({ preventScroll: true });
+    }
+
+    galleryItems.forEach((tile, index) => tile.addEventListener('click', () => openGalleryPhoto(index)));
+    lbClose?.addEventListener('click', closeGallery);
+    lbPrev?.addEventListener('click', () => showGalleryPhoto(activePhotoIndex - 1));
+    lbNext?.addEventListener('click', () => showGalleryPhoto(activePhotoIndex + 1));
+    lightbox.addEventListener('click', event => {
+        if (event.target === lightbox) closeGallery();
     });
-
-    function closeLightbox() { lightbox.classList.remove('open'); }
-
-    lbClose.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', e => {
-        if (e.target === lightbox) closeLightbox();
-    });
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') closeLightbox();
+    document.addEventListener('keydown', event => {
+        if (!lightbox.classList.contains('open')) return;
+        if (event.key === 'Escape') closeGallery();
+        if (event.key === 'ArrowLeft') showGalleryPhoto(activePhotoIndex - 1);
+        if (event.key === 'ArrowRight') showGalleryPhoto(activePhotoIndex + 1);
+        if (event.key === 'Tab') {
+            const controls = Array.from(lightbox.querySelectorAll('button:not([hidden])'));
+            const first = controls[0];
+            const last = controls[controls.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last?.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first?.focus();
+            }
+        }
     });
 }
-
 
 /* ---------- 11. Unified Identity Security Map ---------- */
 const identityDetailOverlay = document.getElementById('identity-detail-overlay');
@@ -462,3 +517,20 @@ identityDetailOverlay?.addEventListener('click', e => {
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && activeMapKey) closeIdentityDetail();
 });
+/* ---------- 12. Lightweight hero parallax (desktop pointer only) ---------- */
+if (isFinePointer && !prefersReduced) {
+    const heroVisual = document.querySelector('.hero-visual');
+    if (heroVisual) {
+        heroVisual.addEventListener('pointermove', event => {
+            const bounds = heroVisual.getBoundingClientRect();
+            const x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
+            const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+            heroVisual.style.setProperty('--pointer-x', `${x * 7}deg`);
+            heroVisual.style.setProperty('--pointer-y', `${y * -6}deg`);
+        });
+        heroVisual.addEventListener('pointerleave', () => {
+            heroVisual.style.setProperty('--pointer-x', '0deg');
+            heroVisual.style.setProperty('--pointer-y', '0deg');
+        });
+    }
+}
