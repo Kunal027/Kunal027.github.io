@@ -2277,6 +2277,19 @@ section {
     .hero-orbit-system { transition: none; }
     .hero-stage-label { backdrop-filter: none; }
 }
+@media (max-width: 640px) {
+    /* Keep the hero orb as a still 3D illustration on phones. */
+    .hero-orbit-a,
+    .hero-orbit-b,
+    .hero-orbit-c,
+    .hero-stage-label-top,
+    .hero-stage-label-bottom { animation: none !important; }
+    .hero-orbit-system {
+        transform: rotateX(-12deg) rotateY(-22deg);
+        transition: none;
+    }
+    .hero-stage-label { translate: none; }
+}
 
 /* ============================================================
    STORY REVEALS, MULTI-DIRECTION CARDS, AND RECENTS-STYLE GALLERY
@@ -2462,8 +2475,40 @@ section:not(#hero) .title-wrap.show .section-title { clip-path: inset(0); }
 @media (max-width: 600px) {
     #about .about-copy { gap: 11px; }
     #about .about-copy p { padding-left: 13px; font-size: .98rem; }
-    .gallery-grid { padding: 31px 10px 40px; scroll-padding-inline: 10px; }
-    .gallery-item { flex-basis: clamp(190px, 65vw, 242px); height: clamp(275px, 86vw, 330px); margin-left: -48px; border-radius: 13px; }
+    /* Compact centered deck: one photo leads while the others remain tappable around it. */
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        align-items: center;
+        justify-items: center;
+        gap: 0;
+        width: 100%;
+        min-height: clamp(300px, 91vw, 390px);
+        padding: 28px 0 34px;
+        overflow: visible;
+        perspective: 1000px;
+        scroll-snap-type: none;
+        scrollbar-width: none;
+    }
+    .gallery-grid::-webkit-scrollbar { display: none; }
+    .gallery-item {
+        grid-area: 1 / 1;
+        justify-self: center;
+        width: min(76vw, 310px);
+        height: clamp(270px, 78vw, 350px);
+        margin: 0;
+        border-radius: 15px;
+        --mobile-x: 0px;
+        --mobile-y: 0px;
+    }
+    .gallery-item:nth-child(1) { --mobile-x: -13vw; --mobile-y: 17px; z-index: 1; }
+    .gallery-item:nth-child(2) { --mobile-x: -7vw; --mobile-y: 7px; z-index: 3; }
+    .gallery-item:nth-child(3) { --mobile-x: 0px; --mobile-y: -5px; z-index: 5; }
+    .gallery-item:nth-child(4) { --mobile-x: 7vw; --mobile-y: 7px; z-index: 4; }
+    .gallery-item:nth-child(5) { --mobile-x: 13vw; --mobile-y: 17px; z-index: 2; }
+    .gallery-grid > .gallery-item.hidden.show {
+        transform: translate3d(var(--mobile-x), var(--mobile-y), 0) rotateZ(var(--stack-tilt)) rotateY(0deg);
+    }
     .gallery-item .cap { padding: 30px 11px 10px; font-size: .6rem; }
 }
 
